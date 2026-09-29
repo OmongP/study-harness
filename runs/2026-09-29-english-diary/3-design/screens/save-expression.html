@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>표현 저장 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
+
+  .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
+  .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
+  .body-muted { font-size: 16px; line-height: 1.6; color: #6B6760; }
+
+  .top { display: flex; flex-direction: column; gap: 4px; padding: 24px 20px 8px; }
+
+  /* 시트: 딤·그림자 없이 surface 면 + 윗선 + 윗모서리 16 (design.md 5.13) */
+  .sheet { margin-top: auto; display: flex; flex-direction: column; gap: 16px; padding: 16px 20px 24px; background: #FFFFFF; border-top: 1px solid #E6E2DA; border-radius: 16px 16px 0 0; }
+  .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .close { display: flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 14px; font-weight: 600; line-height: 1.4; color: #1C1B19; }
+
+  .group { display: flex; flex-direction: column; gap: 8px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { display: flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 999px; }
+  .chip[aria-pressed="true"] { background: #E4EEEA; border: 1px solid #2F5D50; font-weight: 700; }
+  .phrase { font-family: Newsreader, Georgia, serif; }
+
+  .actions { display: flex; flex-direction: column; gap: 8px; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; background: #2F5D50; color: #FFFFFF; border-radius: 12px; font-size: 16px; font-weight: 600; }
+  .btn-secondary { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 16px; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 12px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="save-expression" data-author="system" aria-label="다시 쓸 표현 저장">
+
+  <header class="top">
+    <p class="caption">9월 28일 월요일</p>
+    <p class="title">교정 보기</p>
+  </header>
+
+  <section class="sheet" role="dialog" aria-labelledby="sheet-title">
+    <div class="sheet-head">
+      <h1 class="heading" id="sheet-title">다시 써 볼 표현 고르기</h1>
+      <a class="close" href="review.html" data-ui-role="button" aria-label="닫기">닫기</a>
+    </div>
+    <p class="body-muted">고른 표현만 My English에 모아 둬요. 나중에 떠올려 볼 기억으로 다시 만나요.</p>
+
+    <div class="group" role="group" aria-labelledby="from-correction">
+      <p class="label" id="from-correction">교정 제안에서</p>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button"><span class="phrase" data-author="ai" data-content-role="suggestion" lang="en">have drinks with</span></button>
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button"><span class="phrase" data-author="ai" data-content-role="suggestion" lang="en">coworkers</span></button>
+      </div>
+    </div>
+
+    <div class="group" role="group" aria-labelledby="from-mine">
+      <p class="label" id="from-mine">내가 쓴 글에서</p>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button"><span class="phrase" data-author="user" lang="en">talked a lot about</span></button>
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button"><span class="phrase" data-author="user" lang="en">team trip</span></button>
+      </div>
+    </div>
+
+    <p class="caption">하나도 고르지 않아도 괜찮아요.</p>
+
+    <div class="actions">
+      <a class="btn-primary" href="home.html" data-ui-role="button">고른 표현 저장하기</a>
+      <a class="btn-secondary" href="home.html" data-ui-role="button">저장 없이 마치기</a>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

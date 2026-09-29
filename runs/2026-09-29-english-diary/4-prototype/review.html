@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Review — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
+
+  .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
+  .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
+  .diary { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.75; color: #1C1B19; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+  .topbar .caption { padding: 8px; }
+
+  .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
+  .head { display: flex; flex-direction: column; gap: 4px; }
+
+  .original { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .mark { background: #FBF1DE; border-bottom: 2px solid #C8891E; }
+  .reused { border-bottom: 2px dotted #2F5D50; }
+
+  .reuse { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #E4EEEA; border-radius: 16px; }
+  .reuse .label { color: #2F5D50; }
+  .reuse .phrase { font-family: Newsreader, Georgia, serif; font-weight: 600; }
+  .link { display: flex; align-items: center; align-self: flex-start; min-height: 44px; padding: 8px 0; font-size: 14px; font-weight: 600; line-height: 1.4; color: #2F5D50; text-decoration: underline; text-underline-offset: 4px; }
+
+  .units { display: flex; flex-direction: column; gap: 12px; }
+  .unit { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .unit-row { display: flex; flex-direction: column; gap: 4px; }
+  .suggest { color: #2F5D50; }
+  .choices { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { display: flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 999px; }
+  .chip[aria-pressed="true"] { background: #E4EEEA; color: #1C1B19; border: 1px solid #2F5D50; font-weight: 700; }
+
+  .save { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; background: #2F5D50; color: #FFFFFF; border-radius: 12px; font-size: 16px; font-weight: 600; }
+  .btn-secondary { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 16px; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 12px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="review" data-author="system" aria-label="교정 보기">
+
+  <header class="topbar">
+    <a class="back" href="write.html" data-ui-role="button" aria-label="쓰기로 돌아가기">‹ 쓰기</a>
+    <p class="caption">9월 28일 월요일</p>
+  </header>
+
+  <div class="content">
+
+    <div class="head">
+      <h1 class="title">교정 보기</h1>
+      <p>다듬어 볼 수 있는 표현을 제안해요. 반영할지는 직접 골라요.</p>
+    </div>
+
+    <section class="original" aria-labelledby="original-title">
+      <p class="label" id="original-title">내가 쓴 글 · 원문 그대로 보관돼요</p>
+      <p class="diary" data-author="user" data-original-ref="d1" lang="en">I <span class="mark">drink with</span> my <span class="mark">company people</span> yesterday. We talked a lot about our team trip. I'm <span class="reused">looking forward to</span> it.</p>
+      <p class="caption">실선 밑줄: 다듬어 볼 수 있는 표현 · 점선 밑줄: 스스로 다시 쓴 표현</p>
+    </section>
+
+    <section class="reuse" data-ui-role="card" aria-labelledby="reuse-title">
+      <p class="label" id="reuse-title">스스로 다시 쓴 표현</p>
+      <p><span class="phrase" data-author="user" lang="en">looking forward to</span>를 이번엔 힌트 없이 직접 썼어요.</p>
+      <p class="caption">9월 14일 처음 배움 · 9월 28일 스스로 씀</p>
+      <a class="link" href="expression-journey.html" data-ui-role="button">이 표현의 Expression Journey 보기</a>
+    </section>
+
+    <section class="units" aria-label="교정 제안">
+
+      <article class="unit" data-ui-role="correction-unit" aria-label="첫 번째 교정 제안">
+        <div class="unit-row">
+          <p class="caption">내 표현</p>
+          <p class="diary" data-author="user" lang="en"><span class="mark">drink with</span></p>
+        </div>
+        <p class="caption" aria-hidden="true">↓</p>
+        <div class="unit-row">
+          <p class="caption">자연스러운 표현</p>
+          <p class="diary suggest" data-author="ai" data-content-role="suggestion" lang="en">had drinks with</p>
+        </div>
+        <div class="unit-row">
+          <p class="caption">이유</p>
+          <p data-author="ai" data-content-role="explanation">어제 일이라 과거형(had)이 필요해요. 함께 술자리를 가졌다는 뜻은 have drinks with로 자주 말해요.</p>
+        </div>
+        <div class="choices" role="group" aria-label="첫 번째 제안 반영 여부">
+          <button class="chip" type="button" data-choice="apply" aria-pressed="false" data-ui-role="button">반영</button>
+          <button class="chip" type="button" data-choice="keep" data-default="true" aria-pressed="true" data-ui-role="button"><span aria-hidden="true">✓&nbsp;</span>내 표현 유지</button>
+        </div>
+      </article>
+
+      <article class="unit" data-ui-role="correction-unit" aria-label="두 번째 교정 제안">
+        <div class="unit-row">
+          <p class="caption">내 표현</p>
+          <p class="diary" data-author="user" lang="en"><span class="mark">company people</span></p>
+        </div>
+        <p class="caption" aria-hidden="true">↓</p>
+        <div class="unit-row">
+          <p class="caption">자연스러운 표현</p>
+          <p class="diary suggest" data-author="ai" data-content-role="suggestion" lang="en">coworkers</p>
+        </div>
+        <div class="unit-row">
+          <p class="caption">이유</p>
+          <p data-author="ai" data-content-role="explanation">company people은 영어에서 잘 쓰지 않는 조합이에요. 같은 회사에서 함께 일하는 사람은 coworkers라고 해요.</p>
+        </div>
+        <div class="choices" role="group" aria-label="두 번째 제안 반영 여부">
+          <button class="chip" type="button" data-choice="apply" aria-pressed="false" data-ui-role="button">반영</button>
+          <button class="chip" type="button" data-choice="keep" data-default="true" aria-pressed="true" data-ui-role="button"><span aria-hidden="true">✓&nbsp;</span>내 표현 유지</button>
+        </div>
+      </article>
+
+    </section>
+
+    <section class="save" aria-labelledby="save-title">
+      <h2 class="heading" id="save-title">다시 써보고 싶은 표현이 있나요?</h2>
+      <a class="btn-primary" href="save-expression.html" data-ui-role="button">다시 쓸 표현 저장하기</a>
+      <a class="btn-secondary" href="home.html" data-ui-role="button">저장 없이 마치기</a>
+    </section>
+
+  </div>
+
+</main>
+</body>
+</html>
