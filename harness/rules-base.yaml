@@ -1,0 +1,116 @@
+# rules-base.yaml — 공통 규칙 (고정)
+# 판정 스크립트(harness/scripts/verify.mjs)가 읽는 값이다.
+# 출처: harness/design-base.md · harness/guides/html-screen-guide.md · harness/r3~r5 (2026-09-29 승인)
+# 수치를 바꾸면 design-base.md / html-screen-guide.md 도 함께 고친다. 변경은 Omong 승인 후에만.
+# 실행별 runs/<run-id>/3-design/rules.yaml 은 이 파일을 base 로 그대로 복사하고 service 를 더한다 (R4).
+
+version: 1
+
+run:
+  runs_dir: runs
+  run_id_pattern: "^\\d{4}-\\d{2}-\\d{2}-[a-z0-9]+(-[a-z0-9]+)*$" # YYYY-MM-DD-서비스명 (R4)
+  placeholder_pattern: "\\{\\{[^}]*\\}\\}" # 미치환 자리표시 → FAIL (R7·R8)
+
+# ─── 단계·전이 (R3 · R4 · R5 · R7) ───
+gates:
+  order: [research, concept, approval, design, prototype, review]
+  stage: { research: 1, concept: 2, approval: 2, design: 3, prototype: 4, review: 5 }
+  dir:
+    research: 1-research
+    concept: 2-concept
+    approval: 2-concept
+    design: 3-design
+    prototype: 4-prototype
+    review: 5-review
+  report: { research: gate-1.md, design: gate-3.md, review: report.md } # verify.mjs 가 5-review/ 에 씀 (R6)
+  max_attempts: 3 # 같은 복귀 지점에서 3번째 실패 → 정지 (R5 · R7)
+  return_to: # 실패 종류별 복귀 단계 (R3)
+    research: research
+    concept: concept
+    design: design
+    prototype: prototype
+    design_rule: design # 디자인 규칙 위반 (B1~B7, 메타데이터)
+    service_rule: design # 서비스 금지 조건 위반 (S)
+    flow_link: prototype # PRD 흐름 — 화면은 있는데 연결이 끊김
+    flow_screen: concept # PRD 흐름 — 화면 자체가 없음
+    approval_rejected: concept # 👤 컨셉 반려
+    approval_lock: approval # 승인 후 잠금 대상 변경 → 다시 승인
+
+# ─── 1 리서치 Gate (R5 R1) ───
+research:
+  file: references.md
+  min_references: 10
+  reference_heading: "^###\\s+R(\\d+)\\."
+  reference_required_fields: [대응 화면, 무드, 가져올 것, 피할 것] # 링크는 선택 항목
+  point_heading: "^###\\s+RP-(\\d+)\\."
+  min_points: 1
+  point_required_fields: [PRD 연결]
+
+# ─── 2 컨셉 제출 (R3 · R4) ───
+concept:
+  files: [screen-structure.md]
+  keyscreens_dir: keyscreens
+  min_keyscreens: 2
+  max_keyscreens: 3
+
+# ─── 👤 승인 · 컨펌 잠금 (R5 · R7) ───
+approval:
+  file: approval.md
+  approved_pattern: "^-\\s*approved\\s*:\\s*(yes|no)\\s*$"
+  keyscreen_pattern: "^-\\s*채택 키스크린\\s*:\\s*(\\S+)\\s*$"
+  date_pattern: "^-\\s*날짜\\s*:\\s*(\\d{4}-\\d{2}-\\d{2})\\s*$"
+  lock_files: [2-concept/screen-structure.md, 2-concept/keyscreens] # 폴더는 안의 모든 파일
+  lock_check_gates: [design, review]
+  stale_prefix: approval-stale
+  rejected_prefix: approval-rejected
+
+# ─── 3 디자인 · 4 프로토타입 제출 (R4) ───
+design:
+  files: [design.md, rules.yaml]
+  screens_dir: screens
+
+prototype:
+  flows_file: flows.md # 가이드 16절
+  flow_row_pattern: "^\\|\\s*F\\d+\\s*\\|[^|]*\\|\\s*([^|\\s]+\\.html)\\s*→\\s*([^|\\s]+\\.html)\\s*\\|"
+
+# ─── 화면 Gate — 공통 (R5 B1~B8 · 가이드 2·9~17절) ───
+screen:
+  root_attr: data-screen # 가이드 11절 — 파일마다 정확히 1개
+  width: 390
+  height: 844
+
+checks:
+  B1: { title: 기준 프레임 }
+  B2: { title: 간격, allowed: [4, 8, 12, 16, 20, 24, 32] } # padding 4방향 + gap, margin 제외 (가이드 12절). 0 = 간격 없음
+  B3: { title: 모서리, allowed: [0, 8, 12, 16, 999] }
+  B4: { title: 색 하드코딩 } # 허용 목록 = 실행별 rules.yaml service.tokens.colors (가이드 13절)
+  B5: { title: 글자 크기, min: 16, small_allowed: [13, 14] } # 가이드 14절
+  B6:
+    title: 터치 영역
+    min: 44
+    interactive: 'a, button, input, textarea, select, [role="button"], [data-interactive="true"]' # 가이드 9절
+    disabled: '[disabled], [aria-disabled="true"]'
+  B7: { title: 대비, min_ratio: 4.5, on_image_attr: data-on-image } # 가이드 15절
+  B8: { title: PRD 흐름 연결 } # 가이드 10·16절
+
+# 메타데이터 누락 (R5 · 가이드 3·17절)
+metadata:
+  M1: { title: 작성자 누락 } # 자신·조상 어디에도 data-author 가 없는 텍스트
+  M2: { title: AI 텍스트 역할 누락 } # data-author="ai" 인데 data-content-role 이 없는 텍스트
+
+# 중간 Gate(3 디자인 끝)와 최종 Gate(5 검수)에서 돌리는 공통 검사 (R5)
+gate_checks:
+  design: [B2, B3, B4, B5, B6, B7, M1, M2]
+  review: [B1, B2, B3, B4, B5, B6, B7, B8, M1, M2]
+
+# 실행별 rules.yaml 의 service.rules 에 쓸 수 있는 검사 종류 (R5 S1~S4 · 가이드 6~8절)
+service_rule_types:
+  forbid_in_areas: "지정한 data-area 안에서 data-content-role 이 values 중 하나인 요소 수 (S1)"
+  original_preserved: "data-original-ref 텍스트가 같은 id 의 data-original-id 텍스트와 다른 수 + 사용자 원문 취소선 수 (S2)"
+  default_choice: "unit_role 인 요소마다 data-default=true 선택지가 expected 가 아닌 수 (S3)"
+  forbid_values: "data-ui-role 이 values 중 하나인 요소 수 (S4)"
+
+# 사람 확인 항목 — 공통 (R5 · 가이드 15절). 서비스 항목은 실행별 rules.yaml service.human_checks
+human_checks:
+  - 레퍼런스 무드가 서비스 방향과 맞는지 (1-research/references.md 리서치 기준)
+  - 사진 위 글자(data-on-image="true")의 대비

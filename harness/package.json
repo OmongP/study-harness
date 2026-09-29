@@ -1,0 +1,12 @@
+{
+  "name": "ui-design-harness",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/tests/run-tests.mjs"
+  },
+  "dependencies": {
+    "puppeteer-core": "^24.0.0",
+    "yaml": "^2.5.0"
+  }
+}

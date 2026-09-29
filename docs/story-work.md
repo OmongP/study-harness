@@ -8,7 +8,7 @@
 
 - 범위: PRD 핵심 사용자 흐름과 MVP 화면(Home / Write / Review / My English)의 프로토타입 제작 ~ 검수
 - 결과물: 인터랙티브 프로토타입 + 검수 결과
-- 규칙 SSOT: docs/design.md (디자인 원칙·토큰·컴포넌트·접근성·Harness Gate) — ※ 아직 docs/에 없음
+- 규칙 SSOT: docs/design.md (1 Overview → 2 Colors → 3 Typography → 4 Layout & Shapes → 5 Components → … → 9 Do's and Don'ts → 11 Source for Gate Extraction)
 - 입력 기준: docs/prd.md
 
 ## AS-IS 문장 (7)
@@ -42,6 +42,18 @@
 | S5 | 확정된 컨셉 시안 | | 사람: 내부 관계자 (사람 승인 지점 후보) |
 | S6 | 디자인 토큰, 컴포넌트, 전체 화면 | G2 | |
 | S7 | 디자인 가이드 검토 결과 | G3 | |
+
+## 잘 나온 과거 결과물 (기준 샘플)
+
+"잘 됐다"를 판단할 때 대조하는 샘플이다. 규칙 판정은 design.md가 하고, 샘플은 "이 정도면 된다"는 수준을 보여준다.
+
+| 샘플 | 파일 | 대응 문장 | 비고 |
+|---|---|---|---|
+| UIbowl에서 수집하고 Claude가 선별한 레퍼런스 | docs/references.md | S1·S2 | 12개 선별 + 대조군 5개. 핵심 레퍼런스: 하루냥(Write)·하이링구얼(Review·Home). 레퍼런스마다 가져올 것과 피할 것을 design.md 근거와 함께 적음 |
+| Claude가 만든 키스크린 (필요할 때) | — (아직 없음) | S4 | 390×844, 2~3개. design.md와 references.md 반영 |
+
+- 참고 기준: docs/design.md
+- 샘플이 design.md와 부딪히면 design.md가 이긴다.
 
 ## 게이트 초안 (R5에서 확정)
 
