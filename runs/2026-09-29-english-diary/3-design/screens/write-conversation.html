@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Write — 대화로 쓰기 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
+
+  .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .body-muted { font-size: 16px; line-height: 1.6; color: #6B6760; }
+  .diary { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.75; color: #1C1B19; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+  .saved { padding: 8px; }
+
+  .write { display: flex; flex-direction: column; gap: 16px; padding: 8px 20px 24px; }
+  .source { align-self: flex-start; padding: 4px 12px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; }
+
+  /* 중립 말풍선: 상대 말 = surface + line, 내 말 = accent-soft (design.md 5.10) */
+  .bubble { display: flex; flex-direction: column; gap: 4px; max-width: 80%; padding: 12px 16px; border-radius: 16px; }
+  .them { align-self: flex-start; background: #FFFFFF; border: 1px solid #E6E2DA; }
+  .me { align-self: flex-end; background: #E4EEEA; }
+
+  .turn { display: flex; flex-direction: column; gap: 8px; }
+  .ask { display: flex; flex-direction: column; gap: 4px; }
+  .q { font-size: 16px; font-weight: 600; line-height: 1.6; color: #1C1B19; }
+  .input-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .input { min-height: 88px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 12px; outline: none; }
+  .input.active { border: 1px solid #2F5D50; }
+
+  .bottom { position: sticky; bottom: 0; margin-top: auto; padding: 12px 20px 20px; background: #FAF8F4; border-top: 1px solid #E6E2DA; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; background: #2F5D50; color: #FFFFFF; border-radius: 12px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="write-conversation" data-author="system" aria-label="대화로 쓰기">
+
+  <header class="topbar">
+    <a class="back" href="capture-confirm.html" data-ui-role="button" aria-label="대화 확인으로 돌아가기">‹ 확인</a>
+    <p class="caption">10월 2일 금요일</p>
+    <p class="caption saved" role="status" aria-live="polite">✓ 자동 저장됨</p>
+  </header>
+
+  <!-- 작성 영역: 캡처 원문은 사용자 기록 그대로, AI는 질문만. 번역 답·대화 답변 없음 (PRD 4 B-2~3, 6.5) -->
+  <section class="write" data-area="write" aria-label="대화를 영어로 쓰기">
+    <p class="label source">대화 캡처에서 시작</p>
+    <p class="body-muted">캡처에서 읽은 대화예요. 내 말풍선 아래에 영어로 직접 써 봐요.</p>
+
+    <div class="bubble them">
+      <p class="caption">지민</p>
+      <p data-author="user" data-original-ref="k1">어제 회식 어땠어?</p>
+    </div>
+
+    <div class="turn">
+      <div class="bubble me">
+        <p class="caption">나</p>
+        <p data-author="user" data-original-ref="k2">재밌었어. 팀 여행 얘기 많이 했어</p>
+      </div>
+      <div class="ask">
+        <p class="q" data-author="ai" data-content-role="question" lang="en">How would you tell Jimin about the dinner?</p>
+        <p class="body-muted" data-author="ai" data-content-role="question">지민에게 회식 이야기를 어떻게 전할까요?</p>
+      </div>
+      <div class="input-wrap">
+        <p class="label" id="c1-label">내 영어로 쓰기</p>
+        <div class="diary input active" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="c1-label" data-interactive="true" data-author="user" data-original-id="c1" lang="en">It was really fun. We talked about our team trip a lot.</div>
+      </div>
+    </div>
+
+    <div class="bubble them">
+      <p class="caption">지민</p>
+      <p data-author="user" data-original-ref="k3">오 어디로 가?</p>
+    </div>
+
+    <div class="turn">
+      <div class="bubble me">
+        <p class="caption">나</p>
+        <p data-author="user" data-original-ref="k4">제주도! 벌써 기대돼</p>
+      </div>
+      <div class="ask">
+        <p class="q" data-author="ai" data-content-role="question" lang="en">Where are you going, and how do you feel about it?</p>
+        <p class="body-muted" data-author="ai" data-content-role="question">어디로 가고, 지금 기분이 어떤가요?</p>
+      </div>
+      <div class="input-wrap">
+        <p class="label" id="c2-label">내 영어로 쓰기</p>
+        <div class="diary input" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="c2-label" data-interactive="true" data-author="user" data-original-id="c2" lang="en">Jeju island! I'm already so excited.</div>
+      </div>
+    </div>
+
+    <p class="caption">한 문장이어도 괜찮아요. 틀려도 그대로 두면 돼요.</p>
+  </section>
+
+  <footer class="bottom">
+    <a class="btn-primary" href="review.html" data-ui-role="button">다 썼어요 · 교정 보기</a>
+  </footer>
+
+</main>
+</body>
+</html>

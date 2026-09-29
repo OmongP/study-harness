@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My English — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
+  ul { list-style: none; }
+
+  .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
+  .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
+  .body-muted { font-size: 16px; line-height: 1.6; color: #6B6760; }
+  .phrase { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.6; }
+
+  .top { display: flex; flex-direction: column; gap: 4px; padding: 24px 20px 8px; }
+  .content { display: flex; flex-direction: column; gap: 24px; padding: 16px 20px 24px; }
+
+  .section { display: flex; flex-direction: column; gap: 12px; }
+  .list { display: flex; flex-direction: column; gap: 12px; }
+  .item { display: flex; flex-direction: column; gap: 4px; min-height: 44px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .item.reuse { background: #E4EEEA; border: 1px solid #E4EEEA; }
+  .item .more { color: #2F5D50; text-decoration: underline; text-underline-offset: 4px; }
+  .suggest { color: #2F5D50; }
+
+  .tabbar { position: sticky; bottom: 0; margin-top: auto; display: flex; gap: 8px; padding: 4px 20px 8px; background: #FFFFFF; border-top: 1px solid #E6E2DA; }
+  .tab { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 44px; font-size: 14px; line-height: 1.4; color: #6B6760; }
+  .tab[aria-current="page"] { color: #2F5D50; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+</style>
+</head>
+<body>
+<main data-screen="my-english" data-author="system" aria-label="My English">
+
+  <header class="top">
+    <h1 class="title">My English</h1>
+    <p class="body-muted">내가 모아 둔 표현과, 스스로 다시 쓴 표현이에요.</p>
+  </header>
+
+  <div class="content">
+
+    <section class="section" aria-labelledby="reused-title">
+      <h2 class="heading" id="reused-title">스스로 다시 쓴 표현</h2>
+      <ul class="list">
+        <li>
+          <a class="item reuse" href="expression-journey.html" data-ui-role="card" aria-label="looking forward to의 Expression Journey 보기">
+            <span class="phrase" data-author="user" lang="en">looking forward to</span>
+            <span class="caption">9월 14일 처음 배움 · 9월 28일 스스로 씀</span>
+            <span class="label more">Expression Journey 보기</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="saved-title">
+      <h2 class="heading" id="saved-title">모아 둔 표현</h2>
+      <p class="caption">최근에 저장한 순서</p>
+      <ul class="list">
+        <li>
+          <a class="item" href="expression-journey.html" data-ui-role="card" aria-label="have drinks with 기록 보기">
+            <span class="phrase suggest" data-author="ai" data-content-role="suggestion" lang="en">have drinks with</span>
+            <span class="caption">9월 28일 저장 · 교정 제안에서</span>
+          </a>
+        </li>
+        <li>
+          <a class="item" href="expression-journey.html" data-ui-role="card" aria-label="coworkers 기록 보기">
+            <span class="phrase suggest" data-author="ai" data-content-role="suggestion" lang="en">coworkers</span>
+            <span class="caption">9월 28일 저장 · 교정 제안에서</span>
+          </a>
+        </li>
+        <li>
+          <a class="item" href="expression-journey.html" data-ui-role="card" aria-label="looking forward to 기록 보기">
+            <span class="phrase suggest" data-author="ai" data-content-role="suggestion" lang="en">look forward to going</span>
+            <span class="caption">9월 14일 저장 · 교정 제안에서</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+  <nav class="tabbar" aria-label="주요 메뉴">
+    <a class="tab" href="home.html" data-ui-role="tab">홈</a>
+    <a class="tab" href="my-english.html" aria-current="page" data-ui-role="tab">My English</a>
+  </nav>
+
+</main>
+</body>
+</html>

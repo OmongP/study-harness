@@ -1,0 +1,68 @@
+{
+  "run_id": "2026-09-29-english-diary",
+  "prd_source": "docs/prd.md",
+  "created": "2026-09-29T14:08:00.618Z",
+  "current_stage": 5,
+  "next": null,
+  "stages": {
+    "1": "pass",
+    "2": "pass",
+    "3": "pass",
+    "4": "pass",
+    "5": "pass"
+  },
+  "retries": {},
+  "blocked": null,
+  "done": true,
+  "approval_lock": {
+    "sha256": "d89c22329cf0cc3f31243897958bf36521611d03f7df5a800450d1710a373083",
+    "files": [
+      "2-concept/keyscreens/home.html",
+      "2-concept/keyscreens/review.html",
+      "2-concept/keyscreens/write.html",
+      "2-concept/screen-structure.md"
+    ],
+    "approved_at": "2026-09-29T14:24:44.678Z",
+    "keyscreen": "review.html",
+    "date": "2026-09-29"
+  },
+  "history": [
+    {
+      "at": "2026-09-29T14:08:00.619Z",
+      "event": "init",
+      "prd": "docs/prd.md"
+    },
+    {
+      "at": "2026-09-29T14:12:16.896Z",
+      "gate": "research",
+      "result": "pass"
+    },
+    {
+      "at": "2026-09-29T14:18:50.639Z",
+      "gate": "concept",
+      "result": "pass"
+    },
+    {
+      "at": "2026-09-29T14:24:44.678Z",
+      "gate": "approval",
+      "result": "approved",
+      "keyscreen": "review.html"
+    },
+    {
+      "at": "2026-09-29T14:37:55.276Z",
+      "gate": "design",
+      "result": "pass"
+    },
+    {
+      "at": "2026-09-29T14:42:50.304Z",
+      "gate": "prototype",
+      "result": "pass"
+    },
+    {
+      "at": "2026-09-29T14:43:12.030Z",
+      "gate": "review",
+      "result": "pass"
+    }
+  ],
+  "updated": "2026-09-29T14:43:13.754Z"
+}
