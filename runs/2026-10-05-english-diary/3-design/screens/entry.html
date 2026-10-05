@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기록 보기 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  ul, ol { list-style: none; }
+  img { display: block; }
+
+  .caption { font-size: 13px; font-weight: 400; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .title { font-size: 24px; font-weight: 700; line-height: 1.75; color: #1C1B19; }
+  .section-title { font-size: 24px; font-weight: 700; line-height: 1.75; color: #1C1B19; }
+  .diary { font-family: Newsreader, Georgia, serif; font-size: 18px; font-weight: 400; line-height: 1.75; color: #1C1B19; }
+  .ruled {
+    font-family: Newsreader, Georgia, serif;
+    font-size: 18px;
+    line-height: 32px;
+    color: #1C1B19;
+    background-color: #FFFFFF;
+    background-image: repeating-linear-gradient(to bottom, #FFFFFF 0px, #FFFFFF 31px, #E6E2DA 31px, #E6E2DA 32px);
+    background-origin: content-box;
+    background-attachment: local;
+  }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+
+  .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
+  .head { display: flex; flex-direction: column; gap: 4px; }
+
+  .original { display: flex; flex-direction: column; gap: 12px; padding: 20px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .photo-ph { display: flex; align-items: center; justify-content: center; width: 100%; height: 120px; background: #E6E2DA; border-radius: 12px; }
+  .photo-ph .caption { color: #1C1B19; }
+  .mark { background: #FBF1DE; border-bottom: 2px solid #C8891E; }
+  .reused { border-bottom: 2px dotted #2F5D50; }
+
+  .picks { display: flex; flex-direction: column; gap: 12px; }
+  .pick-list { display: flex; flex-direction: column; gap: 12px; }
+  .pick { display: flex; flex-direction: column; gap: 8px; padding: 20px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .pick-row { display: flex; flex-direction: column; gap: 4px; }
+  .suggest { color: #2F5D50; }
+</style>
+</head>
+<body>
+<main data-screen="entry" data-author="system" aria-label="9월 28일 기록 보기">
+
+  <header class="topbar">
+    <a class="back" href="home.html" data-ui-role="button" aria-label="홈으로 돌아가기">‹ 홈</a>
+  </header>
+
+  <div class="content">
+
+    <div class="head">
+      <p class="caption">사진에서 시작 · 나만 보기</p>
+      <h1 class="title">9월 28일 월요일</h1>
+    </div>
+
+    <section class="original" aria-labelledby="original-title">
+      <p class="label" id="original-title">내가 쓴 글 · 원문 그대로 보관돼요</p>
+      <div class="photo-ph" role="img" aria-label="이날 고른 회식 사진 자리">
+        <p class="caption">그날 사진 · 회식 자리</p>
+      </div>
+      <p class="ruled" data-author="user" data-original-ref="d1" lang="en">I <span class="mark">drink with</span> my <span class="mark">company people</span> yesterday. We talked a lot about our team trip. I'm <span class="reused">looking forward to</span> it.</p>
+      <p class="caption">실선 밑줄: 다듬어 볼 수 있는 표현 · 점선 밑줄: 스스로 다시 쓴 표현</p>
+    </section>
+
+    <section class="picks" aria-labelledby="picks-title">
+      <h2 class="section-title" id="picks-title">내가 고른 교정 기록</h2>
+      <ul class="pick-list">
+        <li class="pick" aria-label="첫 번째 교정 기록">
+          <div class="pick-row">
+            <p class="caption">내 표현</p>
+            <p class="diary" data-author="user" lang="en"><span class="mark">drink with</span></p>
+          </div>
+          <div class="pick-row">
+            <p class="caption">자연스러운 표현</p>
+            <p class="diary suggest" data-author="ai" data-content-role="suggestion" lang="en">had drinks with</p>
+          </div>
+          <p class="label">내가 고른 것: 반영</p>
+        </li>
+        <li class="pick" aria-label="두 번째 교정 기록">
+          <div class="pick-row">
+            <p class="caption">내 표현</p>
+            <p class="diary" data-author="user" lang="en"><span class="mark">company people</span></p>
+          </div>
+          <div class="pick-row">
+            <p class="caption">자연스러운 표현</p>
+            <p class="diary suggest" data-author="ai" data-content-role="suggestion" lang="en">coworkers</p>
+          </div>
+          <p class="label">내가 고른 것: 내 표현 유지</p>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+</main>
+</body>
+</html>

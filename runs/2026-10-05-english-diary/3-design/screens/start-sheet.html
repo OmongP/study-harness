@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기록 시작 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { position: relative; width: 390px; height: 844px; overflow: hidden; background: #FAF8F4; color: #1C1B19; }
+  a { color: #1C1B19; text-decoration: none; }
+  button, input { font: inherit; color: #1C1B19; background: transparent; border: 0; cursor: pointer; }
+  ul, ol { list-style: none; }
+  img { display: block; }
+
+  .section-title { font-size: 24px; font-weight: 700; line-height: 1.75; color: #1C1B19; }
+  .body-muted { font-size: 16px; font-weight: 400; line-height: 1.6; color: #6B6760; }
+  .puppy { object-fit: contain; flex: 0 0 auto; }
+
+  /* 딤: CSS 반투명 대신 미리 딤 처리한 Home 화면 이미지 (§2, §5.14) */
+  .backdrop { position: absolute; inset: 0; display: block; }
+  .backdrop img { width: 390px; height: 844px; }
+
+  /* 떠 있는 시트 — 좌우·아래 16, 네 모서리 16, 1px line, 그림자 없음 (§5.14) */
+  .sheet { position: absolute; left: 16px; right: 16px; bottom: 16px; display: flex; flex-direction: column; gap: 4px; padding: 20px 16px 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .sheet-head { display: flex; align-items: center; gap: 8px; }
+  .sheet-head .section-title { flex: 1; min-width: 0; }
+  .close { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; min-height: 44px; min-width: 44px; padding: 8px 16px; background: #EFECE6; color: #1C1B19; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.4; }
+
+  /* 테두리·배경 없는 목록 행 (카드 안에 카드를 넣지 않음) */
+  .options { display: flex; flex-direction: column; gap: 4px; }
+  .option { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 12px 4px; }
+  .src-icon-box { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex: 0 0 44px; background: #EFECE6; border-radius: 12px; }
+  .opt-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .opt-title { font-size: 16px; font-weight: 600; line-height: 1.4; color: #1C1B19; }
+</style>
+</head>
+<body>
+<main data-screen="start-sheet" data-author="system" aria-label="기록 시작 방법 고르기">
+
+  <a class="backdrop" href="home.html" aria-label="시트 닫기" data-ui-role="button"><img src="../../../../docs/assets/start-sheet-backdrop.png" alt="" aria-hidden="true" width="390" height="844"></a>
+
+  <section class="sheet" aria-labelledby="sheet-title">
+    <div class="sheet-head">
+      <img class="puppy" src="../../../../docs/assets/puppy-head-curious.png" alt="" aria-hidden="true" width="44" height="44">
+      <h1 class="section-title" id="sheet-title">무엇으로 시작할까요?</h1>
+      <a class="close" href="home.html" data-ui-role="button" aria-label="닫기">닫기</a>
+    </div>
+
+    <ul class="options">
+      <li>
+        <a class="option" href="write.html" data-ui-role="button">
+          <span class="src-icon-box"><img class="icon" alt="" aria-hidden="true" width="24" height="24" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231C1B19' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M4 8h3l2-3h6l2 3h3v11H4z'/><circle cx='12' cy='13' r='3.5'/></svg>"></span>
+          <span class="opt-text">
+            <span class="opt-title">사진</span>
+            <span class="body-muted">사진을 보며 그날 일을 영어로 써요</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="option" href="capture-confirm.html" data-ui-role="button">
+          <span class="src-icon-box"><img class="icon" alt="" aria-hidden="true" width="24" height="24" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231C1B19' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M4 5h16v11H9l-5 4z'/></svg>"></span>
+          <span class="opt-text">
+            <span class="opt-title">대화 캡처</span>
+            <span class="body-muted">메신저 캡처를 읽어 내 말만 영어로 써요</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="option" href="capture-confirm.html" data-ui-role="button">
+          <span class="src-icon-box"><img class="icon" alt="" aria-hidden="true" width="24" height="24" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231C1B19' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4M7 12h10'/></svg>"></span>
+          <span class="opt-text">
+            <span class="opt-title">텍스트 스캔</span>
+            <span class="body-muted">손글씨나 메모를 읽어 와서 시작해요</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a class="option" href="write.html" data-ui-role="button">
+          <span class="src-icon-box"><img class="icon" alt="" aria-hidden="true" width="24" height="24" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231C1B19' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M4 20l1-4L16 5l3 3L8 19z'/><path d='M14 7l3 3'/></svg>"></span>
+          <span class="opt-text">
+            <span class="opt-title">바로 쓰기</span>
+            <span class="body-muted">사진 없이 빈 노트에 바로 써요</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+</main>
+</body>
+</html>

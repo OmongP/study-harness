@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>떠올리기 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button, input { font: inherit; color: #1C1B19; background: transparent; border: 0; cursor: pointer; }
+  img { display: block; }
+
+  .caption { font-size: 13px; font-weight: 400; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .title { font-size: 24px; font-weight: 700; line-height: 1.75; color: #1C1B19; }
+  .cue { font-size: 20px; font-weight: 600; line-height: 1.6; color: #1C1B19; }
+  .puppy { object-fit: contain; flex: 0 0 auto; }
+  .ruled {
+    font-family: Newsreader, Georgia, serif;
+    font-size: 18px;
+    line-height: 32px;
+    color: #1C1B19;
+    background-color: #FFFFFF;
+    background-image: repeating-linear-gradient(to bottom, #FFFFFF 0px, #FFFFFF 31px, #E6E2DA 31px, #E6E2DA 32px);
+    background-origin: content-box;
+    background-attachment: local;
+  }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+  .top-right { display: flex; align-items: center; gap: 4px; }
+  .saved { padding: 8px; }
+
+  .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
+  .recall { display: flex; flex-direction: column; gap: 16px; }
+  .photo-ph { display: flex; align-items: center; justify-content: center; width: 100%; height: 120px; background: #E6E2DA; border-radius: 12px; }
+  .photo-ph .caption { color: #1C1B19; }
+
+  .input-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .input { min-height: 192px; padding: 16px; border: 1px solid #2F5D50; border-radius: 12px; outline: none; }
+  .count-row { display: flex; justify-content: flex-end; }
+
+  /* 잠금 영역: recall 영역 밖, 실제 문장 없이 가림 막대만 (§5.8) */
+  .locked { display: flex; flex-direction: column; gap: 12px; padding: 20px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .lock-head { display: flex; align-items: center; gap: 8px; }
+  .veils { display: flex; flex-direction: column; gap: 8px; }
+  .veil { display: block; height: 12px; background: #E6E2DA; border-radius: 8px; }
+  .veil.w100 { width: 100%; }
+  .veil.w80 { width: 80%; }
+  .veil.w60 { width: 60%; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 24px; background: #2F5D50; color: #FFFFFF; border-radius: 999px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="recall" data-author="system" aria-label="떠올려 쓰기">
+
+  <header class="topbar">
+    <a class="back" href="home.html" data-ui-role="button" aria-label="홈으로 돌아가기">‹ 홈</a>
+    <div class="top-right">
+      <p class="caption saved" role="status" aria-live="polite">자동 저장됨 · 오후 8:40</p>
+      <p class="caption">10월 2일</p>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <h1 class="title">그날을 떠올려 써 봐요</h1>
+
+    <!-- 떠올려 쓰기 영역: 한국어 단서만, 정답 영어 없음 (PRD 3 RECALL, 6.5) -->
+    <section class="recall" data-area="recall" aria-label="떠올려 쓰기 영역">
+      <div class="photo-ph" role="img" aria-label="9월 28일 기록의 회식 사진 자리">
+        <p class="caption">그날 사진 · 회식 자리</p>
+      </div>
+      <p class="caption">9월 28일 월요일의 기록에서</p>
+      <p class="cue" data-author="ai" data-content-role="cue">회사 사람들과 저녁에 한잔했던 날이에요. 누구와 무엇을 했는지 영어로 다시 써 봐요.</p>
+      <div class="input-wrap">
+        <p class="label" id="recall-label">내 영어로 쓰기</p>
+        <div class="input ruled" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="recall-label" data-interactive="true" data-author="user" data-original-id="r1" lang="en">I had drinks with my coworkers. We talked about our team trip.</div>
+        <div class="count-row">
+          <p class="caption">62자</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="locked" aria-labelledby="locked-title">
+      <div class="lock-head">
+        <img class="puppy" src="../../../../docs/assets/puppy-sit.png" alt="" aria-hidden="true" width="40" height="40">
+        <p class="label" id="locked-title">전에 쓴 내 표현</p>
+      </div>
+      <div class="veils" aria-hidden="true">
+        <span class="veil w100"></span>
+        <span class="veil w80"></span>
+        <span class="veil w60"></span>
+      </div>
+      <p class="caption">방금 쓴 문장과 나란히 열어 볼 수 있어요.</p>
+      <a class="btn-primary" href="recall-check.html" data-ui-role="button">전에 쓴 내 표현 열기</a>
+    </section>
+
+  </div>
+
+</main>
+</body>
+</html>

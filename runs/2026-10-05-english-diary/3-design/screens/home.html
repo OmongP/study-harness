@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button, input { font: inherit; color: #1C1B19; background: transparent; border: 0; cursor: pointer; }
+  ul, ol { list-style: none; }
+  img { display: block; }
+
+  .caption { font-size: 13px; font-weight: 400; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .title { font-size: 24px; font-weight: 700; line-height: 1.75; color: #1C1B19; }
+  .section-title { font-size: 24px; font-weight: 700; line-height: 1.75; color: #1C1B19; }
+  .cue { font-size: 20px; font-weight: 600; line-height: 1.6; color: #1C1B19; }
+  .letter-label { font-size: 16px; font-weight: 600; line-height: 1.5; color: #2F5D50; }
+  .diary-preview { font-family: Newsreader, Georgia, serif; font-size: 16px; line-height: 1.6; color: #1C1B19; }
+  .puppy { object-fit: contain; flex: 0 0 auto; }
+
+  .top { display: flex; flex-direction: column; gap: 4px; padding: 24px 20px 8px; }
+  .greet { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .greet .title { flex: 1; }
+  .content { display: flex; flex-direction: column; gap: 24px; padding: 16px 20px 24px; }
+
+  .photo-ph { display: flex; align-items: center; justify-content: center; width: 100%; height: 120px; background: #E6E2DA; border-radius: 12px; }
+  .photo-ph.tall { height: 160px; }
+  .photo-ph .caption { color: #1C1B19; }
+
+  /* Memory Comeback Card: letter 면, 버튼 하나 (§5.7) */
+  .comeback { display: flex; flex-direction: column; gap: 12px; padding: 20px; background: #E4ECD1; border-radius: 16px; }
+  .btn-accent-outline { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 20px; background: #FFFFFF; color: #2F5D50; border: 1px solid #2F5D50; border-radius: 999px; font-size: 16px; font-weight: 600; }
+
+  .start { display: flex; flex-direction: column; gap: 8px; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 24px; background: #2F5D50; color: #FFFFFF; border-radius: 999px; font-size: 16px; font-weight: 600; }
+
+  .recent { display: flex; flex-direction: column; gap: 12px; }
+  .list { display: flex; flex-direction: column; gap: 12px; }
+  .record { display: flex; gap: 12px; padding: 12px; min-height: 44px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .thumb-ph { display: block; width: 64px; height: 64px; flex: 0 0 64px; background: #E6E2DA; border-radius: 12px; }
+  .record .meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+
+  .tabbar { position: sticky; bottom: 0; margin-top: auto; display: flex; gap: 8px; padding: 4px 20px 8px; background: #FFFFFF; border-top: 1px solid #E6E2DA; border-radius: 0; }
+  .tab { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 44px; font-size: 14px; font-weight: 400; line-height: 1.4; color: #6B6760; }
+  .tab[aria-current="page"] { color: #2F5D50; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+</style>
+</head>
+<body>
+<main data-screen="home" data-author="system" aria-label="홈">
+
+  <!-- 스트릭·공백 일수·캘린더 없음 (PRD 6.3) -->
+  <header class="top">
+    <p class="caption">10월 2일 금요일</p>
+    <div class="greet">
+      <h1 class="title">다시 만나서 반가워요</h1>
+      <img class="puppy" src="../../../../docs/assets/puppy-wave.png" alt="" aria-hidden="true" width="72" height="72">
+    </div>
+  </header>
+
+  <div class="content">
+
+    <section class="comeback" data-area="comeback" data-ui-role="card" aria-labelledby="comeback-title">
+      <p class="letter-label" id="comeback-title">다시 떠올려 볼 기억</p>
+      <div class="photo-ph tall" role="img" aria-label="9월 28일 기록의 회식 사진 자리">
+        <p class="caption">그날 사진 · 회식 자리</p>
+      </div>
+      <p class="caption">9월 28일의 기록에서</p>
+      <p class="cue" data-author="ai" data-content-role="cue">회사 사람들과 저녁에 한잔했던 날이에요. 그때 하고 싶었던 말을 영어로 다시 써 볼까요?</p>
+      <a class="btn-accent-outline" href="recall.html" data-ui-role="button">떠올려 쓰기 시작</a>
+      <p class="caption">전에 쓴 내 표현은 다시 쓴 뒤에 열어 볼 수 있어요.</p>
+    </section>
+
+    <section class="start" aria-label="오늘 기록하기">
+      <a class="btn-primary" href="start-sheet.html" data-ui-role="button">오늘 기록하기</a>
+      <p class="caption">사진 · 대화 캡처 · 텍스트 스캔 · 바로 쓰기 중에서 골라 시작해요</p>
+    </section>
+
+    <section class="recent" aria-labelledby="recent-title">
+      <h2 class="section-title" id="recent-title">최근 기록</h2>
+      <ul class="list">
+        <li>
+          <a class="record" href="entry.html" data-ui-role="card" aria-label="9월 28일 기록 열기">
+            <span class="thumb-ph" aria-hidden="true"></span>
+            <div class="meta">
+              <p class="caption">9월 28일 · 사진에서 시작</p>
+              <p class="diary-preview" data-author="user" data-original-ref="d1" lang="en">I drink with my company people yesterday. We talked a lot about our team trip. I'm looking forward to it.</p>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a class="record" href="entry.html" data-ui-role="card" aria-label="9월 14일 기록 열기">
+            <span class="thumb-ph" aria-hidden="true"></span>
+            <div class="meta">
+              <p class="caption">9월 14일 · 사진에서 시작</p>
+              <p class="diary-preview" data-author="user" lang="en">I walked along the river with my friend. I look forward to go camping this weekend.</p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+  <nav class="tabbar" aria-label="주요 메뉴">
+    <a class="tab" href="home.html" aria-current="page" data-ui-role="tab">홈</a>
+    <a class="tab" href="my-english.html" data-ui-role="tab">My English</a>
+  </nav>
+
+</main>
+</body>
+</html>

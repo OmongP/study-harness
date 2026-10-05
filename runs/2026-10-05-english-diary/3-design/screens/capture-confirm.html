@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>캡처 확인 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button, input { font: inherit; color: #1C1B19; background: transparent; border: 0; cursor: pointer; }
+  ul, ol { list-style: none; }
+  img { display: block; }
+
+  .caption { font-size: 13px; font-weight: 400; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .title { font-size: 24px; font-weight: 700; line-height: 1.75; color: #1C1B19; }
+  .section-title { font-size: 24px; font-weight: 700; line-height: 1.75; color: #1C1B19; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+  .topbar .caption { padding: 8px; }
+
+  .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
+  .meta-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .source { display: inline-flex; align-items: center; padding: 4px 12px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; }
+  .head { display: flex; flex-direction: column; gap: 4px; }
+
+  .partner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .partner-info { display: flex; flex-direction: column; gap: 4px; }
+  .partner-name { font-size: 16px; font-weight: 600; }
+
+  .read { display: flex; flex-direction: column; gap: 8px; }
+  .msgs { display: flex; flex-direction: column; gap: 8px; }
+  .msg-them { align-self: flex-start; max-width: 85%; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .msg-me { align-self: flex-end; max-width: 85%; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding: 16px; background: #E4ECD1; border-radius: 16px; text-align: right; }
+
+  .chip { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #EFECE6; color: #1C1B19; border: 1px solid #EFECE6; border-radius: 999px; }
+  .chip[aria-pressed="true"] { background: #DEE8E4; color: #1C1B19; border: 1px solid #2F5D50; font-weight: 700; }
+
+  .bottom { position: sticky; bottom: 0; margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 20px; background: #FAF8F4; border-top: 1px solid #E6E2DA; border-radius: 0; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 24px; background: #2F5D50; color: #FFFFFF; border-radius: 999px; font-size: 16px; font-weight: 600; }
+  .btn-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 20px; background: #EFECE6; color: #1C1B19; border-radius: 999px; font-size: 16px; font-weight: 600; line-height: 1.4; }
+</style>
+</head>
+<body>
+<main data-screen="capture-confirm" data-author="system" aria-label="읽어 온 내용 확인">
+
+  <header class="topbar">
+    <a class="back" href="start-sheet.html" data-ui-role="button" aria-label="시작 방법 고르기로 돌아가기">‹ 시작 방법</a>
+    <p class="caption">10월 2일 금요일</p>
+  </header>
+
+  <div class="content">
+
+    <div class="meta-row">
+      <span class="source">대화 캡처에서 시작</span>
+      <p class="caption">나만 보기 · 비공개 기록</p>
+    </div>
+
+    <div class="head">
+      <h1 class="title">읽어 온 내용을 확인해요</h1>
+      <p>캡처에서 읽은 글자를 그대로 가져왔어요. 영어로 쓸 말을 골라요.</p>
+    </div>
+
+    <section class="partner" aria-label="대화 상대">
+      <div class="partner-info">
+        <p class="caption">대화 상대</p>
+        <p class="partner-name" data-author="user">지수</p>
+      </div>
+      <button class="btn-secondary" type="button" data-ui-role="button">다른 사람으로 바꾸기</button>
+    </section>
+
+    <section class="read" aria-labelledby="read-title">
+      <h2 class="section-title" id="read-title">읽어 온 말</h2>
+      <ul class="msgs">
+        <li class="msg-them">
+          <p data-author="user">오늘 회식 어땠어? 팀장님도 오셨어?</p>
+        </li>
+        <li class="msg-me">
+          <p data-author="user">응, 다 같이 갔어. 생각보다 재밌었어.</p>
+          <button class="chip" type="button" aria-pressed="true" data-ui-role="button"><span aria-hidden="true">✓&nbsp;</span>영어로 쓸 말</button>
+        </li>
+        <li class="msg-them">
+          <p data-author="user">다음 달 워크숍도 간대?</p>
+        </li>
+        <li class="msg-me">
+          <p data-author="user">응 제주도로 간대. 벌써 기대돼.</p>
+          <button class="chip" type="button" aria-pressed="true" data-ui-role="button"><span aria-hidden="true">✓&nbsp;</span>영어로 쓸 말</button>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer class="bottom">
+    <a class="btn-primary" href="write-conversation.html" data-ui-role="button">이 내용으로 쓰기 시작</a>
+    <a class="btn-secondary" href="write.html" data-ui-role="button">말풍선 없이 한 편으로 쓰기</a>
+  </footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Write — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button, input { font: inherit; color: #1C1B19; background: transparent; border: 0; cursor: pointer; }
+  img { display: block; }
+
+  .caption { font-size: 13px; font-weight: 400; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
+  .body-muted { font-size: 16px; font-weight: 400; line-height: 1.6; color: #6B6760; }
+  .puppy { object-fit: contain; flex: 0 0 auto; }
+  .ruled {
+    font-family: Newsreader, Georgia, serif;
+    font-size: 18px;
+    line-height: 32px;
+    color: #1C1B19;
+    background-color: #FFFFFF;
+    background-image: repeating-linear-gradient(to bottom, #FFFFFF 0px, #FFFFFF 31px, #E6E2DA 31px, #E6E2DA 32px);
+    background-origin: content-box;
+    background-attachment: local;
+  }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+  .top-right { display: flex; align-items: center; gap: 4px; }
+  .saved { padding: 8px; }
+
+  .write { display: flex; flex-direction: column; gap: 16px; padding: 8px 20px 24px; }
+  .meta-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .source { display: inline-flex; align-items: center; padding: 4px 12px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; }
+
+  .photo-ph { display: flex; align-items: center; justify-content: center; width: 100%; height: 120px; background: #E6E2DA; border-radius: 12px; }
+  .photo-ph .caption { color: #1C1B19; }
+
+  /* 질문 말풍선 알약: 꼬리·화자 없음, 질문 하나 (§5.9) */
+  .question { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 8px 0; }
+  .q-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .q-bubble { padding: 12px 24px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; font-size: 18px; font-weight: 600; line-height: 1.4; color: #1C1B19; }
+  .q-refresh { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; min-width: 44px; padding: 8px 16px; background: #EFECE6; color: #1C1B19; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.4; }
+
+  .input-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .input { min-height: 192px; padding: 16px; border: 1px solid #2F5D50; border-radius: 12px; outline: none; }
+  .count-row { display: flex; justify-content: flex-end; }
+
+  .bottom { position: sticky; bottom: 0; margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 20px; background: #FAF8F4; border-top: 1px solid #E6E2DA; border-radius: 0; }
+  .tools { display: flex; gap: 8px; }
+  .tool { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 16px; background: #EFECE6; color: #1C1B19; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 24px; background: #2F5D50; color: #FFFFFF; border-radius: 999px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="write" data-author="system" aria-label="영어로 쓰기">
+
+  <header class="topbar">
+    <a class="back" href="home.html" data-ui-role="button" aria-label="홈으로 돌아가기">‹ 홈</a>
+    <div class="top-right">
+      <p class="caption saved" role="status" aria-live="polite">자동 저장됨 · 오후 9:12</p>
+      <p class="caption">9월 28일</p>
+    </div>
+  </header>
+
+  <!-- 작성 영역: AI는 질문만. 예문·완성 답·추적 표현 힌트 없음 (PRD 6.5) -->
+  <section class="write" data-area="write" aria-label="영어 직접 작성">
+
+    <div class="meta-row">
+      <span class="source">사진에서 시작</span>
+      <p class="caption">나만 보기 · 비공개 기록</p>
+    </div>
+
+    <div class="photo-ph" role="img" aria-label="오늘 고른 회식 사진 자리">
+      <p class="caption">오늘 사진 · 회식 자리</p>
+    </div>
+
+    <div class="question">
+      <p class="caption">사진을 보고 떠올려 봐요</p>
+      <div class="q-row">
+        <img class="puppy" src="../../../docs/assets/puppy-head-calm.png" alt="" aria-hidden="true" width="56" height="56">
+        <p class="q-bubble" data-author="ai" data-content-role="question" lang="en">Who were you with tonight, and what did you talk about?</p>
+      </div>
+      <p class="body-muted" data-author="ai" data-content-role="question">오늘 저녁 누구와 있었고, 어떤 이야기를 했나요?</p>
+      <button class="q-refresh" type="button" data-ui-role="button" aria-label="다른 질문으로 바꾸기"><img class="icon" alt="" aria-hidden="true" width="20" height="20" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%231C1B19' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M16 10a6 6 0 1 1-2-4.5'/><path d='M14.5 2v4h-4'/></svg>"><span>다른 질문</span></button>
+    </div>
+
+    <div class="input-wrap">
+      <p class="label" id="write-label">내 영어로 쓰기</p>
+      <div class="input ruled" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="write-label" data-interactive="true" data-author="user" data-original-id="d1" lang="en">I drink with my company people yesterday. We talked a lot about our team trip. I'm looking forward to it.</div>
+      <div class="count-row">
+        <p class="caption">105자</p>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="bottom">
+    <div class="tools" role="group" aria-label="첨부 도구">
+      <button class="tool" type="button" data-ui-role="button">사진 바꾸기</button>
+      <button class="tool" type="button" data-ui-role="button">텍스트 스캔</button>
+    </div>
+    <a class="btn-primary" href="review.html" data-ui-role="button">다 썼어요 · 교정 보기</a>
+  </footer>
+
+</main>
+</body>
+</html>
