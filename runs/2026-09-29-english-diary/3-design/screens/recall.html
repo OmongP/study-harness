@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>떠올리기 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  img { display: block; }
+
+  .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
+  .diary { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.75; color: #1C1B19; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+  .topbar .caption { padding: 8px; }
+
+  .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
+
+  /* 떠올려 쓰기 영역: 한국어 단서만, 정답 영어·이전 표현 없음 (RP-5, PRD 3 RECALL, 6.5) */
+  .recall { display: flex; flex-direction: column; gap: 12px; }
+  .photo { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; }
+  .input-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .input { min-height: 180px; padding: 16px; background: #FFFFFF; border: 1px solid #2F5D50; border-radius: 12px; outline: none; }
+  .count-row { display: flex; justify-content: flex-end; }
+
+  /* 이전 표현 잠금: 실제 문장 없이 가림 막대만 (design.md §5.8) */
+  .locked { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .veil { display: flex; flex-direction: column; gap: 8px; }
+  .bar { height: 12px; background: #E6E2DA; border-radius: 8px; }
+  .bar-1 { width: 100%; }
+  .bar-2 { width: 80%; }
+  .bar-3 { width: 60%; }
+
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; background: #2F5D50; color: #FFFFFF; border-radius: 12px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="recall" data-author="system" aria-label="떠올려 쓰기">
+
+  <header class="topbar">
+    <a class="back" href="home.html" data-ui-role="button" aria-label="홈으로 돌아가기">‹ 홈</a>
+    <p class="caption">10월 2일 금요일</p>
+    <p class="caption" role="status" aria-live="polite">자동 저장됨 · 오후 8:15</p>
+  </header>
+
+  <div class="content">
+
+    <section class="recall" data-area="recall" aria-label="기억을 떠올려 영어로 다시 쓰기">
+      <img class="photo" alt="9월 28일 기록에 올린 회식 사진" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 160'><rect width='350' height='160' fill='%233B2F2A'/><rect y='100' width='350' height='60' fill='%238A5A3C'/><circle cx='90' cy='78' r='24' fill='%23E0B48A'/><circle cx='175' cy='70' r='24' fill='%23D9A57A'/><circle cx='260' cy='78' r='24' fill='%23E6BC94'/><rect x='128' y='110' width='18' height='36' rx='4' fill='%23F2C94C'/><rect x='204' y='110' width='18' height='36' rx='4' fill='%23F2C94C'/></svg>">
+      <p class="caption">9월 28일의 기록에서</p>
+      <p class="heading" data-author="ai" data-content-role="cue">회사 사람들과 저녁에 한잔했던 날이에요. 그때 하고 싶었던 말을 영어로 다시 써 볼까요?</p>
+      <div class="input-wrap">
+        <p class="label" id="recall-label">내 영어로 다시 쓰기</p>
+        <div class="diary input" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="recall-label" data-interactive="true" data-author="user" data-original-id="r1" lang="en">I had drinks with my coworkers. We talked about our team trip.</div>
+        <div class="count-row">
+          <p class="caption">62자</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- recall 영역 밖. 사용자가 직접 눌러야 열린다. 정답 확인·AI 풀이 문구 없음 (RP-5, R11) -->
+    <section class="locked" aria-labelledby="locked-title">
+      <p class="label" id="locked-title">전에 쓴 내 표현</p>
+      <div class="veil" aria-hidden="true">
+        <div class="bar bar-1"></div>
+        <div class="bar bar-2"></div>
+        <div class="bar bar-3"></div>
+      </div>
+      <p class="caption">방금 쓴 문장과 나란히 볼 수 있어요.</p>
+      <a class="btn-primary" href="recall-check.html" data-ui-role="button">전에 쓴 내 표현 열기</a>
+    </section>
+
+  </div>
+
+</main>
+</body>
+</html>
