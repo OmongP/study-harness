@@ -9,16 +9,13 @@
   body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
   [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
   a { color: #1C1B19; text-decoration: none; }
-  button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
-  ul { list-style: none; }
+  img { display: block; }
 
   .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
   .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
   .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
   .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
-  .body-muted { font-size: 16px; line-height: 1.6; color: #6B6760; }
   .diary { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.75; color: #1C1B19; }
-  .diary-preview { font-family: Newsreader, Georgia, serif; font-size: 16px; line-height: 1.6; color: #1C1B19; }
 
   .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
   .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
@@ -27,22 +24,18 @@
   .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
   .head { display: flex; flex-direction: column; gap: 4px; }
 
+  /* 나란히 보기: 판정·점수·체크 표시 없음 (RP-5, PRD 3 RECALL) */
   .card { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
-  .past { display: flex; flex-direction: column; gap: 12px; }
-  .past-item { display: flex; flex-direction: column; gap: 4px; }
-  .suggest { color: #2F5D50; }
+  .saved-phrase { display: flex; flex-direction: column; gap: 4px; }
+  .link { display: flex; align-items: center; align-self: flex-start; min-height: 44px; padding: 8px 0; font-size: 14px; font-weight: 600; line-height: 1.4; color: #2F5D50; text-decoration: underline; text-underline-offset: 4px; }
 
-  .confirm { display: flex; flex-direction: column; gap: 8px; }
-  .choices { display: flex; gap: 8px; flex-wrap: wrap; }
-  .chip { display: flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 999px; }
-  .chip[aria-pressed="true"] { background: #E4EEEA; border: 1px solid #2F5D50; font-weight: 700; }
-
-  .transfer { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #E4EEEA; border-radius: 16px; }
-  .transfer .label { color: #2F5D50; }
+  /* 전이 단서: 한국어 상황만, 정답 영어 없음 (PRD 3 RECALL, 6.5) */
+  .transfer { display: flex; flex-direction: column; gap: 12px; }
   .input-wrap { display: flex; flex-direction: column; gap: 8px; }
-  .input { min-height: 88px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 12px; outline: none; }
+  .input { min-height: 88px; padding: 16px; background: #FFFFFF; border: 1px solid #2F5D50; border-radius: 12px; outline: none; }
+  .count-row { display: flex; justify-content: flex-end; }
 
-  .bottom { position: sticky; bottom: 0; margin-top: auto; padding: 12px 20px 20px; background: #FAF8F4; border-top: 1px solid #E6E2DA; }
+  .bottom { position: sticky; bottom: 0; margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 20px; background: #FAF8F4; border-top: 1px solid #E6E2DA; }
   .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; background: #2F5D50; color: #FFFFFF; border-radius: 12px; font-size: 16px; font-weight: 600; }
 </style>
 </head>
@@ -50,64 +43,50 @@
 <main data-screen="recall-check" data-author="system" aria-label="떠올린 뒤 확인">
 
   <header class="topbar">
-    <a class="back" href="recall.html" data-ui-role="button" aria-label="떠올리기로 돌아가기">‹ 떠올리기</a>
+    <a class="back" href="recall.html" data-ui-role="button" aria-label="떠올려 쓰기로 돌아가기">‹ 떠올리기</a>
     <p class="caption">10월 2일 금요일</p>
   </header>
 
   <div class="content">
 
     <div class="head">
-      <h1 class="title">전에 쓴 표현과 나란히 보기</h1>
-      <p>맞고 틀림을 따지지 않아요. 오늘 쓴 글과 전에 모아 둔 표현을 함께 봐요.</p>
+      <h1 class="title">두 문장을 나란히 봐요</h1>
+      <p>방금 쓴 문장과 전에 쓴 내 표현을 함께 보여 줘요.</p>
     </div>
 
-    <!-- 사용자 원문은 transfer-cue 영역 밖 (design.md §6) -->
-    <section class="card" aria-labelledby="today-title">
-      <p class="label" id="today-title">오늘 떠올려 쓴 글</p>
+    <section class="card" aria-labelledby="now-title">
+      <p class="label" id="now-title">방금 쓴 문장</p>
       <p class="diary" data-author="user" data-original-ref="r1" lang="en">I had drinks with my coworkers. We talked about our team trip.</p>
-      <p class="caption">10월 2일</p>
+      <p class="caption">10월 2일 다시 씀</p>
     </section>
 
-    <section class="card" aria-labelledby="past-title">
-      <p class="label" id="past-title">9월 28일에 모아 둔 표현</p>
-      <ul class="past">
-        <li class="past-item">
-          <p class="diary-preview suggest" data-author="ai" data-content-role="suggestion" lang="en">have drinks with</p>
-          <p class="caption">내가 쓴 표현: <span data-author="user" lang="en">drink with</span></p>
-        </li>
-        <li class="past-item">
-          <p class="diary-preview suggest" data-author="ai" data-content-role="suggestion" lang="en">coworkers</p>
-          <p class="caption">내가 쓴 표현: <span data-author="user" lang="en">company people</span></p>
-        </li>
-      </ul>
-      <a class="back" href="entry.html" data-ui-role="button">9월 28일 기록 전체 보기</a>
-    </section>
-
-    <section class="confirm" aria-labelledby="confirm-title">
-      <h2 class="heading" id="confirm-title">이 표현을 떠올렸나요?</h2>
-      <p class="body-muted">직접 고른 경우에만 Expression Journey에 "떠올림"으로 적어요.</p>
-      <div class="choices" role="group" aria-labelledby="confirm-title">
-        <button class="chip" type="button" aria-pressed="false" data-ui-role="button">떠올렸어요</button>
-        <button class="chip" type="button" aria-pressed="false" data-ui-role="button">아직 헷갈려요</button>
+    <section class="card" aria-labelledby="before-title">
+      <p class="label" id="before-title">전에 쓴 내 표현</p>
+      <p class="caption">9월 28일 기록 · 원문 그대로</p>
+      <p class="diary" data-author="user" data-original-ref="d1" lang="en">I drink with my company people yesterday. We talked a lot about our team trip. I'm looking forward to it.</p>
+      <div class="saved-phrase">
+        <p class="caption">9월 28일에 저장한 표현</p>
+        <p class="diary" data-author="ai" data-content-role="suggestion" lang="en">have drinks with</p>
       </div>
+      <a class="link" href="entry.html" data-ui-role="button">9월 28일 기록 전체 보기</a>
     </section>
 
-    <!-- 전이 단서 영역: 한국어 상황 + 영어 질문만. 정답 표현·완성 문장 없음 (PRD 3 RECALL, 6.5) -->
     <section class="transfer" data-area="transfer-cue" aria-labelledby="transfer-title">
-      <p class="label" id="transfer-title">다른 상황에서도 써 보기 · 선택</p>
-      <p class="heading" data-author="ai" data-content-role="cue">이번엔 지난 주말 오랜 친구들과 만난 자리라고 생각해 봐요.</p>
-      <p data-author="ai" data-content-role="question" lang="en">What did you do when you met your friends?</p>
+      <h2 class="heading" id="transfer-title">다른 상황에서도 써 볼까요?</h2>
+      <p data-author="ai" data-content-role="cue">지난 토요일, 오랜만에 대학 친구들과 저녁에 한잔했다고 가정해 봐요. 그 일을 영어로 한 문장 써 봐요.</p>
       <div class="input-wrap">
         <p class="label" id="transfer-label">내 영어로 쓰기</p>
         <div class="diary input" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="transfer-label" data-interactive="true" data-author="user" data-original-id="t1" lang="en">I had drinks with my old friends last Saturday.</div>
+        <div class="count-row">
+          <p class="caption">47자</p>
+        </div>
       </div>
-      <p class="caption">단서를 보고 쓴 글은 "스스로 씀"에 넣지 않아요.</p>
     </section>
 
   </div>
 
   <footer class="bottom">
-    <a class="btn-primary" href="home.html" data-ui-role="button">마치고 홈으로</a>
+    <a class="btn-primary" href="home.html" data-ui-role="button">기록하고 홈으로</a>
   </footer>
 
 </main>

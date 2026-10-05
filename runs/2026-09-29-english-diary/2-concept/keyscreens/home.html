@@ -9,7 +9,6 @@
   body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
   [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
   a { color: #1C1B19; text-decoration: none; }
-  button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
   ul { list-style: none; }
   img { display: block; }
 
@@ -22,15 +21,13 @@
   .top { display: flex; flex-direction: column; gap: 4px; padding: 24px 20px 8px; }
   .content { display: flex; flex-direction: column; gap: 24px; padding: 16px 20px 24px; }
 
+  /* Memory Comeback Card: 사진 + 한국어 단서 + 시작 버튼 하나 (RP-5, R10) */
   .comeback { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #E4EEEA; border-radius: 16px; }
   .comeback .photo { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; }
   .comeback .label { color: #2F5D50; }
-  .comeback .caption { color: #6B6760; }
-  .row { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; background: #2F5D50; color: #FFFFFF; border-radius: 12px; font-size: 16px; font-weight: 600; }
   .btn-accent-outline { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 16px; background: #FFFFFF; color: #2F5D50; border: 1px solid #2F5D50; border-radius: 12px; font-size: 16px; font-weight: 600; }
-  .btn-ghost { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 16px; background: #E4EEEA; color: #1C1B19; border: 0; border-radius: 12px; font-size: 16px; }
 
   .start { display: flex; flex-direction: column; gap: 8px; }
 
@@ -48,6 +45,7 @@
 <body>
 <main data-screen="home" data-author="system" aria-label="홈">
 
+  <!-- 스트릭·남은 시간·월간 캘린더 없음 (R1 피할 것, PRD 6.3) -->
   <header class="top">
     <p class="caption">10월 2일 금요일</p>
     <h1 class="title">다시 만나서 반가워요</h1>
@@ -55,25 +53,23 @@
 
   <div class="content">
 
-    <!-- Memory Comeback Card: 앱을 연 시점에 하나만. 정답 영어·남은 개수·공백 일수 없음 (RP-5, PRD 3 RECALL, 6.3) -->
+    <!-- Memory Comeback Card: 정답 영어·개수 할당·판정 문구 없음. 이전 표현은 다시 쓴 뒤 열림 (RP-5, PRD 3 RECALL) -->
     <section class="comeback" data-area="comeback" data-ui-role="card" aria-labelledby="comeback-title">
       <p class="label" id="comeback-title">다시 떠올려 볼 기억</p>
       <img class="photo" alt="9월 28일 기록에 올린 회식 사진" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 160'><rect width='350' height='160' fill='%233B2F2A'/><rect y='100' width='350' height='60' fill='%238A5A3C'/><circle cx='90' cy='78' r='24' fill='%23E0B48A'/><circle cx='175' cy='70' r='24' fill='%23D9A57A'/><circle cx='260' cy='78' r='24' fill='%23E6BC94'/><rect x='128' y='110' width='18' height='36' rx='4' fill='%23F2C94C'/><rect x='204' y='110' width='18' height='36' rx='4' fill='%23F2C94C'/></svg>">
       <p class="caption">9월 28일의 기록에서</p>
-      <p class="heading" data-author="ai" data-content-role="cue">이날 회사 사람들과 저녁에 함께한 일을, 그때 하고 싶었던 말 그대로 영어로 떠올려 볼까요?</p>
-      <div class="row">
-        <a class="btn-accent-outline" href="recall.html" data-ui-role="button">영어로 떠올려 보기</a>
-        <button class="btn-ghost" type="button" data-ui-role="button">지금은 넘기기</button>
-      </div>
+      <p class="heading" data-author="ai" data-content-role="cue">회사 사람들과 저녁에 한잔했던 날이에요. 그때 하고 싶었던 말을 영어로 다시 써 볼까요?</p>
+      <a class="btn-accent-outline" href="recall.html" data-ui-role="button">떠올려 쓰기 시작</a>
+      <p class="caption">전에 쓴 내 표현은 다시 쓴 뒤에 열어 볼 수 있어요.</p>
     </section>
 
-    <!-- 오늘 기록하기 → 기록 시작 시트 (RP-1) -->
+    <!-- 주 행동 하나: 오늘 기록하기 → 입력 소스 선택 (RP-1, R1·R9) -->
     <section class="start" aria-label="오늘 기록하기">
       <a class="btn-primary" href="start-sheet.html" data-ui-role="button">오늘 기록하기</a>
-      <p class="caption">사진 · 대화 캡처 · 손글씨 · 바로 쓰기 중에서 골라 시작해요</p>
+      <p class="caption">사진 · 대화 캡처 · 텍스트 스캔 · 바로 쓰기 중에서 골라 시작해요</p>
     </section>
 
-    <!-- 최근 기록: 날짜 + 썸네일 + 원문 그대로 (R1, PRD 6.1) -->
+    <!-- 최근 기록: 날짜 + 썸네일 + 원문 그대로 (R14, PRD 6.1) -->
     <section class="recent" aria-labelledby="recent-title">
       <h2 class="heading" id="recent-title">최근 기록</h2>
       <ul class="list">

@@ -15,16 +15,16 @@
   "blocked": null,
   "done": true,
   "approval_lock": {
-    "sha256": "d89c22329cf0cc3f31243897958bf36521611d03f7df5a800450d1710a373083",
+    "sha256": "eabad626db6cfed038c5ae757c1190b8d57dfb73b3ed373d761f56bc1620d242",
     "files": [
       "2-concept/keyscreens/home.html",
       "2-concept/keyscreens/review.html",
       "2-concept/keyscreens/write.html",
       "2-concept/screen-structure.md"
     ],
-    "approved_at": "2026-09-29T14:24:44.678Z",
+    "approved_at": "2026-10-05T08:30:28.013Z",
     "keyscreen": "review.html",
-    "date": "2026-09-29"
+    "date": "2026-10-05"
   },
   "history": [
     {
@@ -62,7 +62,49 @@
       "at": "2026-09-29T14:43:12.030Z",
       "gate": "review",
       "result": "pass"
+    },
+    {
+      "at": "2026-10-05T08:16:44.720Z",
+      "event": "approval-archived",
+      "file": "approval-stale-1.md",
+      "reason": "reopen --from research"
+    },
+    {
+      "at": "2026-10-05T08:16:44.721Z",
+      "event": "reopen",
+      "from": "research"
+    },
+    {
+      "at": "2026-10-05T08:20:40.249Z",
+      "gate": "research",
+      "result": "pass"
+    },
+    {
+      "at": "2026-10-05T08:26:16.676Z",
+      "gate": "concept",
+      "result": "pass"
+    },
+    {
+      "at": "2026-10-05T08:30:28.013Z",
+      "gate": "approval",
+      "result": "approved",
+      "keyscreen": "review.html"
+    },
+    {
+      "at": "2026-10-05T08:46:40.747Z",
+      "gate": "design",
+      "result": "pass"
+    },
+    {
+      "at": "2026-10-05T08:51:50.777Z",
+      "gate": "prototype",
+      "result": "pass"
+    },
+    {
+      "at": "2026-10-05T08:52:04.869Z",
+      "gate": "review",
+      "result": "pass"
     }
   ],
-  "updated": "2026-09-29T14:43:13.754Z"
+  "updated": "2026-10-05T08:52:06.355Z"
 }

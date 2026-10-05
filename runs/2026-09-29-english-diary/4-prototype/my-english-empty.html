@@ -3,20 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My English — 영어가 내 것이 되는 일기</title>
+<title>My English (빈 상태) — 영어가 내 것이 되는 일기</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
   [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
   a { color: #1C1B19; text-decoration: none; }
   button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
-  ul { list-style: none; }
   img { display: block; }
 
-  .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
   .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
   .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
-  .diary { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.75; color: #1C1B19; }
 
   .top { display: flex; flex-direction: column; gap: 4px; padding: 24px 20px 8px; }
   .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
@@ -25,19 +22,14 @@
   .search { width: 100%; font: inherit; font-size: 16px; line-height: 1.6; min-height: 44px; padding: 8px 16px; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 12px; }
   .search::placeholder { color: #6B6760; }
 
-  /* 구분·정렬: 개수·진행률·퍼센트 없음 (RP-7, PRD 6.4) */
   .segment { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip { display: flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 999px; }
   .chip[aria-pressed="true"] { background: #E4EEEA; color: #1C1B19; border: 1px solid #2F5D50; font-weight: 700; }
   .sort-row { display: flex; justify-content: flex-end; }
   .sort { display: flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 999px; }
 
-  .groups { display: flex; flex-direction: column; gap: 20px; }
-  .group { display: flex; flex-direction: column; gap: 8px; }
-  .group-head { color: #6B6760; }
-  .list { display: flex; flex-direction: column; gap: 8px; }
-  .expr { display: flex; flex-direction: column; gap: 4px; min-height: 44px; padding: 12px 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
-  .reused { border-bottom: 2px dotted #2F5D50; }
+  /* 빈 상태: 한 문장만. 큰 0·일러스트·독촉 문구 없음 (RP-7, PRD 6.3) */
+  .empty { padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
 
   .tabbar { position: sticky; bottom: 0; margin-top: auto; display: flex; gap: 8px; padding: 4px 20px 8px; background: #FFFFFF; border-top: 1px solid #E6E2DA; }
   .tab { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 44px; font-size: 14px; line-height: 1.4; color: #6B6760; }
@@ -45,7 +37,7 @@
 </style>
 </head>
 <body>
-<main data-screen="my-english" data-author="system" aria-label="My English">
+<main data-screen="my-english-empty" data-author="system" aria-label="My English">
 
   <header class="top">
     <h1 class="title">My English</h1>
@@ -64,37 +56,9 @@
       </div>
     </div>
 
-    <div class="groups">
-      <section class="group" aria-labelledby="g-0928">
-        <h2 class="label group-head" id="g-0928">9월 28일 월요일</h2>
-        <ul class="list">
-          <li>
-            <a class="expr" href="expression-journey.html" data-ui-role="card" aria-label="have drinks with 기록 보기">
-              <span class="diary" data-author="ai" data-content-role="suggestion" lang="en">have drinks with</span>
-              <span class="caption">9월 28일 저장 · 교정 제안에서</span>
-            </a>
-          </li>
-          <li>
-            <a class="expr" href="expression-journey.html" data-ui-role="card" aria-label="coworkers 기록 보기">
-              <span class="diary" data-author="ai" data-content-role="suggestion" lang="en">coworkers</span>
-              <span class="caption">9월 28일 저장 · 교정 제안에서</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-
-      <section class="group" aria-labelledby="g-0914">
-        <h2 class="label group-head" id="g-0914">9월 14일 월요일</h2>
-        <ul class="list">
-          <li>
-            <a class="expr" href="expression-journey.html" data-ui-role="card" aria-label="looking forward to 기록 보기">
-              <span class="diary" lang="en"><span class="reused" data-author="ai" data-content-role="suggestion">looking forward to</span></span>
-              <span class="caption">9월 14일 처음 배움 · 9월 28일 스스로 씀</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-    </div>
+    <section class="empty" aria-label="저장한 표현 없음">
+      <p>교정 보기에서 다시 써 보고 싶은 표현을 저장하면 여기에 모여요.</p>
+    </section>
 
   </div>
 

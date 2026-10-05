@@ -1,6 +1,6 @@
 # rules.yaml — 2026-09-29-english-diary 판정 SSOT
 # base: harness/rules-base.yaml 을 수정 없이 그대로 복사 (R4)
-# service: input/prd.md · 3-design/design.md 근거
+# service: input/prd.md · 3-design/design.md(재실행판, 2026-10-05 승인 기준) 근거
 
 base:
   # rules-base.yaml — 공통 규칙 (고정)
@@ -123,40 +123,43 @@ base:
 service:
   name: 영어가 내 것이 되는 일기
   tokens:
-    # design.md §2 색 토큰 9개 (B4 허용 목록)
+    # design.md §2 색 토큰 9개 (B4 허용 목록) — paper, ink, surface, line, ink-muted, accent, accent-soft, mark-issue-soft, mark-issue
     colors: ["#FAF8F4", "#1C1B19", "#FFFFFF", "#E6E2DA", "#6B6760", "#2F5D50", "#E4EEEA", "#FBF1DE", "#C8891E"]
   rules:
     - id: S1
       title: AI 대필 금지 — 작성·회상·전이 영역에 완성 답·일기 본문·모범 답안 없음
       critical: true
       type: forbid_in_areas
-      source: "PRD 6.5 AI 대필 금지, 3 MY LIFE·EXPRESS·RECALL, 7 하지 않을 것 / design.md §6 data-area, §8 S1"
+      source: "PRD 6.5 AI 대필 금지, 3 MY LIFE·EXPRESS·RECALL, 7 하지 않을 것 / design.md §6 data-area, §7, §8 S1"
       values: [completed_answer, diary_body, model_answer]
       areas: [write, comeback, recall, transfer-cue]
     - id: S2
       title: 원문 보존 — 다시 보여주는 원문은 원본과 글자가 같고 취소선 없음
       critical: true
       type: original_preserved
-      source: "PRD 6.1 원문 보존, 7 자동 Rewrite 금지 / design.md §5.4, §7 원문 짝짓기 ID, §8 S2"
+      source: "PRD 6.1 원문 보존, 7 자동 Rewrite 금지 / design.md §5.4, §5.16, §5.18, §7 원문 짝짓기 ID, §8 S2"
     - id: S3
       title: 선택권 기본값 — 모든 Correction Unit 의 기본 선택은 내 표현 유지(keep)
       critical: true
       type: default_choice
-      source: "PRD 6.2 사용자 선택권, 3 CORRECT / design.md §5.3, §5.5, §8 S3"
+      source: "PRD 6.2 사용자 선택권, 3 CORRECT, 5 Review / design.md §5.3, §5.5, §8 S3"
       unit_role: correction-unit
       expected: keep
     - id: S4
       title: 게임화·중단 압박 요소 금지 — 스트릭·공백 일수·점수·등급·진행률 바·미완료 개수·배지·순위
       critical: true
       type: forbid_values
-      source: "PRD 6.3 중단 존중, 6.4 성취는 사실로(반드시 지켜야 할 원칙), 7 하지 않을 것 / design.md §8 S4"
+      source: "PRD 6.3 중단 존중, 6.4 성취는 사실로(6 반드시 지켜야 할 원칙), 7 하지 않을 것 / design.md §5.17, §5.18, §8 S4"
       values: [streak, score, level, progress_bar, badge, ranking, missed_day_count, incomplete_count]
   human_checks:
-    - "성인 톤: 캐릭터·마스코트·이모지 일러스트·축하 연출이 없고 전체 인상이 조용한 일기장인지 (PRD 7 / design.md §1, §8)"
-    - "회상·전이 단서(cue·question)에 정답이 되는 영어 표현이나 완성 문장이 드러나지 않는지 — 문장 의미 확인 (PRD 3 RECALL, 6.5 / design.md §6)"
-    - "Reuse(스스로 씀)는 새 일기에서 힌트 없이 쓴 경우만 표시하고, 전이 단서를 보고 쓴 답은 Reuse Notice·Expression Journey에 넣지 않았는지 (PRD 3 RECALL·REUSE / design.md §5.6, §5.14)"
-    - "Write 화면(작성 중)에 추적 표현 힌트가 보이지 않는지 (PRD 5 Write, 7 / design.md §5.9, §8)"
-    - "공백 언급(\"N일 만이에요\")·미완료 개수·독촉 문구가 없는지 (PRD 6.3 / design.md §5.7, §8)"
-    - "빨간색·\"틀림\"·\"오답\" 표현, 교정 요약의 개수·점수처럼 채점으로 읽히는 문구가 없는지 (PRD 6.4 / design.md §2, §8)"
-    - "공개 피드·팔로우·공유 등 SNS형 기능이 없는지 (PRD 7 / design.md §8)"
-    - "일괄 반영·전체 Rewrite 버튼이 없고 교정 제안이 원문보다 권위 있게(크거나 굵게) 보이지 않는지 (PRD 6.2, 7 / design.md §1, §5.3, §5.5)"
+    - "성인 톤: 캐릭터·마스코트·이모지 일러스트·축하 연출이 없고 전체 인상이 조용한 기록장인지 (PRD 7 / design.md §1, §4, §8)"
+    - "회상·전이 단서(cue·question)에 정답이 되는 영어 표현이나 완성 문장이 드러나지 않는지 — 문장 의미 확인 (PRD 3 RECALL, 6.5 / design.md §6, §8)"
+    - "recall.html에서 이전 내 표현이 다시 쓰기 전에 보이지 않고(가림 막대만), 사용자가 직접 눌러야 recall-check.html에서 열리며, 회상 확인에 정답·오답·판정 체크가 없는지 (PRD 3 RECALL, 6.5 / design.md §5.8, §8)"
+    - "Memory Comeback Card에 버튼이 하나뿐이고 두 번째 버튼·개수 할당·정답 영어가 없는지 (PRD 3 RECALL, 6.3 / design.md §5.7, §8)"
+    - "Reuse(스스로 씀)는 새 일기에서 힌트 없이 쓴 경우만 표시하고, 전이 단서를 보고 쓴 답은 Reuse Notice·Expression Journey에 넣지 않았는지 (PRD 3 RECALL·REUSE / design.md §5.6, §5.18, §8)"
+    - "Write·Conversation 화면(작성 중)에 추적 표현 힌트·AI 답변 도움 버튼이 보이지 않는지 (PRD 5 Write, 6.5, 7 / design.md §5.9, §5.10, §5.15, §8)"
+    - "공백·간격 언급(\"N일 만이에요\"·\"N일 경과\")·미완료 개수·남은 시간·독촉 문구가 없는지 (PRD 6.3 / design.md §5.7, §5.18, §8)"
+    - "'나가면 저장되지 않아요' 경고, 글자 수 차단 툴팁, 캐릭터 대기 화면이 없는지 (PRD 5 Write 자동 저장, 6.3, 7 / design.md §5.2, §5.10, §5.19, §8)"
+    - "빨간색·\"틀림\"·\"오답\" 표현, 교정 요약의 개수·점수처럼 채점으로 읽히는 문구가 없는지 (PRD 6.4 / design.md §2, §5.5, §8)"
+    - "일괄 반영·전체 Rewrite 버튼·\"교정된 일기\" 전체 전환 토글이 없고 교정 제안이 원문보다 권위 있게(크거나 굵게) 보이지 않는지 (PRD 6.2, 7 / design.md §1, §5.3, §5.5, §8)"
+    - "공개 피드·팔로우·공유·순위·업셀 배지 같은 SNS·판매형 요소가 없고, 기록 시작 시트 아이콘이 항상 텍스트 라벨과 함께 있는지 (PRD 7 / design.md §5.13, §5.14, §8)"

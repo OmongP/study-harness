@@ -9,27 +9,24 @@
   body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
   [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
   a { color: #1C1B19; text-decoration: none; }
-  button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
-  ul { list-style: none; }
+  ol { list-style: none; }
+  img { display: block; }
 
   .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
   .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
-  .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
   .diary { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.75; color: #1C1B19; }
-  .phrase-title { font-family: Newsreader, Georgia, serif; font-size: 22px; font-weight: 700; line-height: 1.35; }
 
   .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
   .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
 
-  .content { display: flex; flex-direction: column; gap: 24px; padding: 8px 20px 32px; }
+  .content { display: flex; flex-direction: column; gap: 24px; padding: 8px 20px 24px; }
   .head { display: flex; flex-direction: column; gap: 4px; }
+  .phrase { font-weight: 600; }
 
-  /* 날짜별 사실 목록. 연결선은 line 2px 세로 테두리. 진행률·단계 수 없음 (design.md 5.14) */
-  .journey { display: flex; flex-direction: column; gap: 20px; padding-left: 16px; border-left: 2px solid #E6E2DA; }
-  .step { display: flex; flex-direction: column; gap: 8px; }
-  .step-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .stage { padding: 4px 12px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; }
-  .evidence { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  /* 세로 타임라인: 날짜와 원문 발췌만. 경과 시간·간격 수치·진행률·단계 수 없음 (RP-6, PRD 6.4) */
+  .journey { display: flex; flex-direction: column; border-left: 2px solid #E6E2DA; }
+  .step { display: flex; flex-direction: column; gap: 8px; padding: 0 0 20px 16px; }
+  .step-head { display: flex; align-items: center; gap: 8px; }
   .suggest { color: #2F5D50; }
   .reused { border-bottom: 2px dotted #2F5D50; }
   .link { display: flex; align-items: center; align-self: flex-start; min-height: 44px; padding: 8px 0; font-size: 14px; font-weight: 600; line-height: 1.4; color: #2F5D50; text-decoration: underline; text-underline-offset: 4px; }
@@ -45,56 +42,45 @@
   <div class="content">
 
     <div class="head">
-      <p class="caption">Expression Journey</p>
-      <h1 class="phrase-title" data-author="user" lang="en">looking forward to</h1>
-      <p>이 표현을 처음 쓴 날부터 스스로 다시 쓴 날까지의 기록이에요.</p>
+      <h1 class="diary phrase" data-author="ai" data-content-role="suggestion" lang="en">looking forward to</h1>
+      <p class="caption">처음 쓴 날부터 스스로 쓴 날까지의 기록</p>
     </div>
 
-    <ol class="journey" aria-label="날짜별 기록">
+    <ol class="journey">
       <li class="step">
         <div class="step-head">
           <p class="caption">9월 14일</p>
-          <p class="label stage">처음 씀</p>
+          <p class="label">처음 씀</p>
         </div>
-        <div class="evidence">
-          <p class="diary" data-author="user" lang="en">I walked along the river with my friend. I look forward to go camping this weekend.</p>
-        </div>
+        <p class="diary" data-author="user" lang="en">I walked along the river with my friend. I look forward to go camping this weekend.</p>
+        <a class="link" href="entry.html" data-ui-role="button">9월 14일 기록 보기</a>
       </li>
 
       <li class="step">
         <div class="step-head">
           <p class="caption">9월 14일</p>
-          <p class="label stage">교정</p>
+          <p class="label">교정</p>
         </div>
-        <div class="evidence">
-          <p class="caption">내 표현</p>
-          <p class="diary" data-author="user" lang="en">look forward to go</p>
-          <p class="caption">자연스러운 표현</p>
-          <p class="diary suggest" data-author="ai" data-content-role="suggestion" lang="en">look forward to going</p>
-          <p data-author="ai" data-content-role="explanation">이 표현의 to 뒤에는 동사의 -ing 형태가 와요.</p>
-        </div>
+        <p class="diary suggest" data-author="ai" data-content-role="suggestion" lang="en">looking forward to going</p>
+        <p>교정 제안을 반영하고 이 표현을 저장했어요.</p>
       </li>
 
       <li class="step">
         <div class="step-head">
           <p class="caption">9월 21일</p>
-          <p class="label stage">떠올림</p>
+          <p class="label">떠올림</p>
         </div>
-        <div class="evidence">
-          <p>9월 14일 기록을 보고 떠올렸다고 직접 확인했어요.</p>
-        </div>
+        <p>떠올리기에서 다시 쓴 뒤, 떠올렸다고 직접 확인했어요.</p>
       </li>
 
       <li class="step">
         <div class="step-head">
           <p class="caption">9월 28일</p>
-          <p class="label stage">스스로 씀</p>
+          <p class="label">스스로 씀</p>
         </div>
-        <div class="evidence">
-          <p class="caption">새 일기에서 힌트 없이 쓴 글</p>
-          <p class="diary" data-author="user" data-original-ref="d1" lang="en">I drink with my company people yesterday. We talked a lot about our team trip. I'm <span class="reused">looking forward to</span> it.</p>
-          <a class="link" href="entry.html" data-ui-role="button">9월 28일 기록 보기</a>
-        </div>
+        <p class="diary" data-author="user" data-original-ref="d1" lang="en">I drink with my company people yesterday. We talked a lot about our team trip. I'm <span class="reused">looking forward to</span> it.</p>
+        <p>새 일기에서 힌트 없이 직접 썼어요.</p>
+        <a class="link" href="entry.html" data-ui-role="button">9월 28일 기록 보기</a>
       </li>
     </ol>
 

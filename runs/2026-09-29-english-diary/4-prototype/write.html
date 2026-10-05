@@ -23,48 +23,64 @@
   .saved { padding: 8px; }
 
   .write { display: flex; flex-direction: column; gap: 16px; padding: 8px 20px 24px; }
-  .source { align-self: flex-start; padding: 4px 12px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; }
-  .photo { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; }
+  .meta-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .source { padding: 4px 12px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; }
+  .photo { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; }
 
+  /* AI 질문 하나 + 다른 질문. 예문·모범 문장 없음 (RP-2, R6·R2) */
   .question { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
   .chip { align-self: flex-start; display: flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #2F5D50; border: 1px solid #E6E2DA; border-radius: 999px; }
 
   .input-wrap { display: flex; flex-direction: column; gap: 8px; }
   .input { min-height: 180px; padding: 16px; background: #FFFFFF; border: 1px solid #2F5D50; border-radius: 12px; outline: none; }
+  .count-row { display: flex; justify-content: flex-end; }
 
-  .bottom { position: sticky; bottom: 0; margin-top: auto; padding: 12px 20px 20px; background: #FAF8F4; border-top: 1px solid #E6E2DA; }
+  .bottom { position: sticky; bottom: 0; margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 20px; background: #FAF8F4; border-top: 1px solid #E6E2DA; }
+  .tools { display: flex; gap: 8px; }
+  .tool { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 12px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 999px; }
   .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; background: #2F5D50; color: #FFFFFF; border-radius: 12px; font-size: 16px; font-weight: 600; }
 </style>
 </head>
 <body>
 <main data-screen="write" data-author="system" aria-label="쓰기">
 
+  <!-- 자동 저장 상태를 짧은 텍스트로. '나가면 저장되지 않아요' 경고 없음 (RP-8, R5 피할 것) -->
   <header class="topbar">
     <a class="back" href="home.html" data-ui-role="button" aria-label="홈으로 돌아가기">‹ 홈</a>
     <p class="caption">9월 28일 월요일</p>
-    <p class="caption saved" role="status" aria-live="polite">✓ 자동 저장됨</p>
+    <p class="caption saved" role="status" aria-live="polite">자동 저장됨 · 오후 9:12</p>
   </header>
 
-  <!-- 작성 영역: AI는 질문만. 예시 문장·완성 답·추적 표현 힌트 없음 (PRD 5 Write, 6.5) -->
+  <!-- 작성 영역: AI는 질문만. 예시 문장·완성 답·추적 표현 힌트 없음 (RP-2, PRD 5 Write, 6.5) -->
   <section class="write" data-area="write" aria-label="영어 일기 쓰기">
-    <p class="label source">사진에서 시작</p>
-    <img class="photo" alt="오늘 고른 회식 사진" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 200'><rect width='350' height='200' fill='%233B2F2A'/><rect y='125' width='350' height='75' fill='%238A5A3C'/><circle cx='90' cy='95' r='28' fill='%23E0B48A'/><circle cx='175' cy='86' r='28' fill='%23D9A57A'/><circle cx='260' cy='95' r='28' fill='%23E6BC94'/><rect x='128' y='138' width='20' height='42' rx='4' fill='%23F2C94C'/><rect x='204' y='138' width='20' height='42' rx='4' fill='%23F2C94C'/></svg>">
+    <div class="meta-row">
+      <p class="label source">사진에서 시작</p>
+      <p class="caption">나만 보기 · 비공개 기록</p>
+    </div>
+    <img class="photo" alt="오늘 고른 회식 사진" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 180'><rect width='350' height='180' fill='%233B2F2A'/><rect y='112' width='350' height='68' fill='%238A5A3C'/><circle cx='90' cy='86' r='26' fill='%23E0B48A'/><circle cx='175' cy='78' r='26' fill='%23D9A57A'/><circle cx='260' cy='86' r='26' fill='%23E6BC94'/><rect x='128' y='124' width='20' height='40' rx='4' fill='%23F2C94C'/><rect x='204' y='124' width='20' height='40' rx='4' fill='%23F2C94C'/></svg>">
 
     <div class="question" data-ui-role="card">
       <p class="caption">사진을 보고 떠올려 봐요</p>
       <p class="heading" data-author="ai" data-content-role="question" lang="en">Who were you with, and what did you do together?</p>
       <p class="body-muted" data-author="ai" data-content-role="question">누구와 함께였고, 무엇을 했나요?</p>
-      <button class="chip" type="button" data-ui-role="button">다른 질문 보기</button>
+      <button class="chip" type="button" data-ui-role="button" aria-label="다른 질문으로 바꾸기">다른 질문</button>
     </div>
 
     <div class="input-wrap">
       <p class="label" id="diary-label">내 영어로 쓰기</p>
       <div class="diary input" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="diary-label" data-interactive="true" data-author="user" data-original-id="d1" lang="en">I drink with my company people yesterday. We talked a lot about our team trip. I'm looking forward to it.</div>
-      <p class="caption">한 문장이어도 괜찮아요. 틀려도 그대로 두면 돼요.</p>
+      <div class="count-row">
+        <p class="caption">105자</p>
+      </div>
     </div>
   </section>
 
+  <!-- 보조 진입점(텍스트 스캔·사진)은 하단 도구 줄, 주 버튼 하나 (R2·R8). 최소 글자 수 차단 툴팁 없음 -->
   <footer class="bottom">
+    <div class="tools" role="group" aria-label="첨부 도구">
+      <button class="tool" type="button" data-ui-role="button">사진 바꾸기</button>
+      <button class="tool" type="button" data-ui-role="button">텍스트 스캔</button>
+    </div>
     <a class="btn-primary" href="review.html" data-ui-role="button">다 썼어요 · 교정 보기</a>
   </footer>
 

@@ -11,23 +11,33 @@
   a { color: #1C1B19; text-decoration: none; }
   button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
   ul { list-style: none; }
+  img { display: block; }
 
   .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
   .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
   .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
-  .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
-  .body-muted { font-size: 16px; line-height: 1.6; color: #6B6760; }
-  .phrase { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.6; }
+  .diary { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.75; color: #1C1B19; }
 
   .top { display: flex; flex-direction: column; gap: 4px; padding: 24px 20px 8px; }
-  .content { display: flex; flex-direction: column; gap: 24px; padding: 16px 20px 24px; }
+  .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
+  .controls { display: flex; flex-direction: column; gap: 12px; }
 
-  .section { display: flex; flex-direction: column; gap: 12px; }
-  .list { display: flex; flex-direction: column; gap: 12px; }
-  .item { display: flex; flex-direction: column; gap: 4px; min-height: 44px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
-  .item.reuse { background: #E4EEEA; border: 1px solid #E4EEEA; }
-  .item .more { color: #2F5D50; text-decoration: underline; text-underline-offset: 4px; }
-  .suggest { color: #2F5D50; }
+  .search { width: 100%; font: inherit; font-size: 16px; line-height: 1.6; min-height: 44px; padding: 8px 16px; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 12px; }
+  .search::placeholder { color: #6B6760; }
+
+  /* 구분·정렬: 개수·진행률·퍼센트 없음 (RP-7, PRD 6.4) */
+  .segment { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { display: flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 999px; }
+  .chip[aria-pressed="true"] { background: #E4EEEA; color: #1C1B19; border: 1px solid #2F5D50; font-weight: 700; }
+  .sort-row { display: flex; justify-content: flex-end; }
+  .sort { display: flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 999px; }
+
+  .groups { display: flex; flex-direction: column; gap: 20px; }
+  .group { display: flex; flex-direction: column; gap: 8px; }
+  .group-head { color: #6B6760; }
+  .list { display: flex; flex-direction: column; gap: 8px; }
+  .expr { display: flex; flex-direction: column; gap: 4px; min-height: 44px; padding: 12px 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .reused { border-bottom: 2px dotted #2F5D50; }
 
   .tabbar { position: sticky; bottom: 0; margin-top: auto; display: flex; gap: 8px; padding: 4px 20px 8px; background: #FFFFFF; border-top: 1px solid #E6E2DA; }
   .tab { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 44px; font-size: 14px; line-height: 1.4; color: #6B6760; }
@@ -39,48 +49,52 @@
 
   <header class="top">
     <h1 class="title">My English</h1>
-    <p class="body-muted">내가 모아 둔 표현과, 스스로 다시 쓴 표현이에요.</p>
   </header>
 
   <div class="content">
 
-    <section class="section" aria-labelledby="reused-title">
-      <h2 class="heading" id="reused-title">스스로 다시 쓴 표현</h2>
-      <ul class="list">
-        <li>
-          <a class="item reuse" href="expression-journey.html" data-ui-role="card" aria-label="looking forward to의 Expression Journey 보기">
-            <span class="phrase" data-author="user" lang="en">looking forward to</span>
-            <span class="caption">9월 14일 처음 배움 · 9월 28일 스스로 씀</span>
-            <span class="label more">Expression Journey 보기</span>
-          </a>
-        </li>
-      </ul>
-    </section>
+    <div class="controls">
+      <input class="search" type="search" placeholder="표현 검색" aria-label="표현 검색">
+      <div class="segment" role="group" aria-label="표현 구분">
+        <button class="chip" type="button" aria-pressed="true" data-ui-role="button"><span aria-hidden="true">✓&nbsp;</span>저장한 표현</button>
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button">스스로 다시 쓴 표현</button>
+      </div>
+      <div class="sort-row">
+        <button class="sort" type="button" data-ui-role="button" aria-label="정렬: 최신순">최신순</button>
+      </div>
+    </div>
 
-    <section class="section" aria-labelledby="saved-title">
-      <h2 class="heading" id="saved-title">모아 둔 표현</h2>
-      <p class="caption">최근에 저장한 순서</p>
-      <ul class="list">
-        <li>
-          <a class="item" href="expression-journey.html" data-ui-role="card" aria-label="have drinks with 기록 보기">
-            <span class="phrase suggest" data-author="ai" data-content-role="suggestion" lang="en">have drinks with</span>
-            <span class="caption">9월 28일 저장 · 교정 제안에서</span>
-          </a>
-        </li>
-        <li>
-          <a class="item" href="expression-journey.html" data-ui-role="card" aria-label="coworkers 기록 보기">
-            <span class="phrase suggest" data-author="ai" data-content-role="suggestion" lang="en">coworkers</span>
-            <span class="caption">9월 28일 저장 · 교정 제안에서</span>
-          </a>
-        </li>
-        <li>
-          <a class="item" href="expression-journey.html" data-ui-role="card" aria-label="looking forward to 기록 보기">
-            <span class="phrase suggest" data-author="ai" data-content-role="suggestion" lang="en">look forward to going</span>
-            <span class="caption">9월 14일 저장 · 교정 제안에서</span>
-          </a>
-        </li>
-      </ul>
-    </section>
+    <div class="groups">
+      <section class="group" aria-labelledby="g-0928">
+        <h2 class="label group-head" id="g-0928">9월 28일 월요일</h2>
+        <ul class="list">
+          <li>
+            <a class="expr" href="expression-journey.html" data-ui-role="card" aria-label="have drinks with 기록 보기">
+              <span class="diary" data-author="ai" data-content-role="suggestion" lang="en">have drinks with</span>
+              <span class="caption">9월 28일 저장 · 교정 제안에서</span>
+            </a>
+          </li>
+          <li>
+            <a class="expr" href="expression-journey.html" data-ui-role="card" aria-label="coworkers 기록 보기">
+              <span class="diary" data-author="ai" data-content-role="suggestion" lang="en">coworkers</span>
+              <span class="caption">9월 28일 저장 · 교정 제안에서</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="group" aria-labelledby="g-0914">
+        <h2 class="label group-head" id="g-0914">9월 14일 월요일</h2>
+        <ul class="list">
+          <li>
+            <a class="expr" href="expression-journey.html" data-ui-role="card" aria-label="looking forward to 기록 보기">
+              <span class="diary" lang="en"><span class="reused" data-author="ai" data-content-role="suggestion">looking forward to</span></span>
+              <span class="caption">9월 14일 처음 배움 · 9월 28일 스스로 씀</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
 
   </div>
 
