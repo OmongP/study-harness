@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기록 보기 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  img { display: block; }
+
+  .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
+  .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
+  .diary { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.75; color: #1C1B19; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+
+  .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
+  .head { display: flex; flex-direction: column; gap: 8px; }
+  .source { align-self: flex-start; padding: 4px 12px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; }
+
+  /* 원문 그대로 보관. 취소선·자동 Rewrite 없음 (PRD 6.1) */
+  .original { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .original .photo { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; }
+
+  /* 내가 고른 교정 기록: 제안·이유·선택 결과를 사실로만 */
+  .history { display: flex; flex-direction: column; gap: 12px; }
+  .item { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .item-row { display: flex; flex-direction: column; gap: 4px; }
+  .suggest { color: #2F5D50; }
+  .result { font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="entry" data-author="system" aria-label="기록 보기">
+
+  <header class="topbar">
+    <a class="back" href="home.html" data-ui-role="button" aria-label="홈으로 돌아가기">‹ 홈</a>
+  </header>
+
+  <div class="content">
+
+    <div class="head">
+      <h1 class="title">9월 28일 월요일</h1>
+      <p class="label source">사진에서 시작</p>
+    </div>
+
+    <section class="original" aria-labelledby="original-title">
+      <p class="label" id="original-title">내가 쓴 글 · 원문 그대로 보관돼요</p>
+      <img class="photo" alt="이날 고른 회식 사진" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 120'><rect width='350' height='120' fill='%233B2F2A'/><rect y='76' width='350' height='44' fill='%238A5A3C'/><circle cx='90' cy='58' r='18' fill='%23E0B48A'/><circle cx='175' cy='52' r='18' fill='%23D9A57A'/><circle cx='260' cy='58' r='18' fill='%23E6BC94'/></svg>">
+      <p class="diary" data-author="user" data-original-ref="d1" lang="en">I drink with my company people yesterday. We talked a lot about our team trip. I'm looking forward to it.</p>
+    </section>
+
+    <section class="history" aria-labelledby="history-title">
+      <h2 class="heading" id="history-title">내가 고른 교정 기록</h2>
+
+      <article class="item" data-ui-role="card" aria-label="첫 번째 교정 기록">
+        <div class="item-row">
+          <p class="caption">내 표현</p>
+          <p class="diary" data-author="user" lang="en">drink with</p>
+        </div>
+        <div class="item-row">
+          <p class="caption">자연스러운 표현</p>
+          <p class="diary suggest" data-author="ai" data-content-role="suggestion" lang="en">had drinks with</p>
+        </div>
+        <div class="item-row">
+          <p class="caption">이유</p>
+          <p data-author="ai" data-content-role="explanation">어제 일이라 과거형(had)이 필요해요. 함께 술자리를 가졌다는 뜻은 have drinks with로 자주 말해요.</p>
+        </div>
+        <p class="result">반영을 골랐어요 · 표현을 저장했어요</p>
+      </article>
+
+      <article class="item" data-ui-role="card" aria-label="두 번째 교정 기록">
+        <div class="item-row">
+          <p class="caption">내 표현</p>
+          <p class="diary" data-author="user" lang="en">company people</p>
+        </div>
+        <div class="item-row">
+          <p class="caption">자연스러운 표현</p>
+          <p class="diary suggest" data-author="ai" data-content-role="suggestion" lang="en">coworkers</p>
+        </div>
+        <div class="item-row">
+          <p class="caption">이유</p>
+          <p data-author="ai" data-content-role="explanation">company people은 영어에서 잘 쓰지 않는 조합이에요. 같은 회사에서 함께 일하는 사람은 coworkers라고 해요.</p>
+        </div>
+        <p class="result">내 표현 유지를 골랐어요</p>
+      </article>
+    </section>
+
+  </div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Write — 대화 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button, input { font: inherit; color: #1C1B19; background: transparent; border: 0; cursor: pointer; }
+  img { display: block; }
+
+  .caption { font-size: 13px; font-weight: 400; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .ruled {
+    font-family: Newsreader, Georgia, serif;
+    font-size: 18px;
+    line-height: 32px;
+    color: #1C1B19;
+    background-color: #FFFFFF;
+    background-image: repeating-linear-gradient(to bottom, #FFFFFF 0px, #FFFFFF 31px, #E6E2DA 31px, #E6E2DA 32px);
+    background-origin: content-box;
+    background-attachment: local;
+  }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+  .top-right { display: flex; align-items: center; gap: 4px; }
+  .saved { padding: 8px; }
+
+  /* 맥락 띠: 누구와의 대화인지 (§5.15) */
+  .context { position: sticky; top: 0; display: flex; flex-direction: column; gap: 4px; padding: 12px 20px; background: #FFFFFF; border-bottom: 1px solid #E6E2DA; border-radius: 0; }
+  .context-name { font-size: 16px; font-weight: 600; }
+
+  .write { display: flex; flex-direction: column; gap: 16px; padding: 16px 20px 24px; }
+  .meta-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .source { display: inline-flex; align-items: center; padding: 4px 12px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; }
+
+  .bubble { max-width: 85%; display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: 16px; }
+  .bubble-them { align-self: flex-start; background: #FFFFFF; border: 1px solid #E6E2DA; }
+  .bubble-me { align-self: flex-end; background: #E4ECD1; text-align: right; }
+  .turn-me { display: flex; flex-direction: column; gap: 12px; }
+
+  .q-wrap { display: flex; justify-content: center; text-align: center; padding: 4px 0; }
+  .q-bubble { padding: 12px 24px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; font-size: 18px; font-weight: 600; line-height: 1.4; color: #1C1B19; }
+
+  .input-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .input { min-height: 96px; padding: 16px; border: 1px solid #E6E2DA; border-radius: 12px; outline: none; }
+  .input.active { border: 1px solid #2F5D50; }
+  .count-row { display: flex; justify-content: flex-end; }
+
+  .bottom { position: sticky; bottom: 0; margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 20px; background: #FAF8F4; border-top: 1px solid #E6E2DA; border-radius: 0; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 24px; background: #2F5D50; color: #FFFFFF; border-radius: 999px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="write-conversation" data-author="system" aria-label="대화를 영어로 쓰기">
+
+  <header class="topbar">
+    <a class="back" href="capture-confirm.html" data-ui-role="button" aria-label="캡처 확인으로 돌아가기">‹ 확인</a>
+    <div class="top-right">
+      <p class="caption saved" role="status" aria-live="polite">자동 저장됨 · 오후 10:05</p>
+      <p class="caption">10월 2일</p>
+    </div>
+  </header>
+
+  <div class="context" aria-label="대화 맥락">
+    <p class="context-name">지수와의 대화</p>
+    <p class="caption">10월 2일 카카오톡 캡처 · 내 말만 영어로 써요</p>
+  </div>
+
+  <!-- AI는 질문 알약만. 답변 도움 버튼 없음 (R15, PRD 6.5) -->
+  <section class="write" data-area="write" aria-label="말풍선마다 영어로 쓰기">
+
+    <div class="meta-row">
+      <span class="source">대화 캡처에서 시작</span>
+      <p class="caption">나만 보기 · 비공개 기록</p>
+    </div>
+
+    <div class="bubble bubble-them" data-author="user">
+      <p class="caption">지수</p>
+      <p>오늘 회식 어땠어? 팀장님도 오셨어?</p>
+    </div>
+
+    <div class="turn-me">
+      <div class="bubble bubble-me" data-author="user">
+        <p>응, 다 같이 갔어. 생각보다 재밌었어.</p>
+      </div>
+      <div class="q-wrap">
+        <p class="q-bubble" data-author="ai" data-content-role="question" lang="en">Who came to the dinner with you?</p>
+      </div>
+      <div class="input-wrap">
+        <p class="label" id="label-c1">이 말을 내 영어로</p>
+        <div class="input ruled" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="label-c1" data-interactive="true" data-author="user" data-original-id="c1" lang="en">Yes, we all went together. It was more fun than I thought.</div>
+        <div class="count-row">
+          <p class="caption">58자</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bubble bubble-them" data-author="user">
+      <p class="caption">지수</p>
+      <p>다음 달 워크숍도 간대?</p>
+    </div>
+
+    <div class="turn-me">
+      <div class="bubble bubble-me" data-author="user">
+        <p>응 제주도로 간대. 벌써 기대돼.</p>
+      </div>
+      <div class="q-wrap">
+        <p class="q-bubble" data-author="ai" data-content-role="question" lang="en">Where is the workshop this time?</p>
+      </div>
+      <div class="input-wrap">
+        <p class="label" id="label-c2">이 말을 내 영어로</p>
+        <div class="input ruled active" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="label-c2" data-interactive="true" data-author="user" data-original-id="c2" lang="en">Yes, we are going to Jeju. I'm already looking forward to it.</div>
+        <div class="count-row">
+          <p class="caption">61자</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="bottom">
+    <a class="btn-primary" href="review.html" data-ui-role="button">다 썼어요 · 교정 보기</a>
+  </footer>
+
+</main>
+</body>
+</html>

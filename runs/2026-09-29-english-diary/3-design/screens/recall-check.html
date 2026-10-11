@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>떠올린 뒤 확인 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  img { display: block; }
+
+  .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
+  .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
+  .diary { font-family: Newsreader, Georgia, serif; font-size: 18px; line-height: 1.75; color: #1C1B19; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+  .topbar .caption { padding: 8px; }
+
+  .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
+  .head { display: flex; flex-direction: column; gap: 4px; }
+
+  /* 나란히 보기: 판정·점수·체크 표시 없음 (RP-5, PRD 3 RECALL) */
+  .card { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .saved-phrase { display: flex; flex-direction: column; gap: 4px; }
+  .link { display: flex; align-items: center; align-self: flex-start; min-height: 44px; padding: 8px 0; font-size: 14px; font-weight: 600; line-height: 1.4; color: #2F5D50; text-decoration: underline; text-underline-offset: 4px; }
+
+  /* 전이 단서: 한국어 상황만, 정답 영어 없음 (PRD 3 RECALL, 6.5) */
+  .transfer { display: flex; flex-direction: column; gap: 12px; }
+  .input-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .input { min-height: 88px; padding: 16px; background: #FFFFFF; border: 1px solid #2F5D50; border-radius: 12px; outline: none; }
+  .count-row { display: flex; justify-content: flex-end; }
+
+  .bottom { position: sticky; bottom: 0; margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 20px; background: #FAF8F4; border-top: 1px solid #E6E2DA; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; background: #2F5D50; color: #FFFFFF; border-radius: 12px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="recall-check" data-author="system" aria-label="떠올린 뒤 확인">
+
+  <header class="topbar">
+    <a class="back" href="recall.html" data-ui-role="button" aria-label="떠올려 쓰기로 돌아가기">‹ 떠올리기</a>
+    <p class="caption">10월 2일 금요일</p>
+  </header>
+
+  <div class="content">
+
+    <div class="head">
+      <h1 class="title">두 문장을 나란히 봐요</h1>
+      <p>방금 쓴 문장과 전에 쓴 내 표현을 함께 보여 줘요.</p>
+    </div>
+
+    <section class="card" aria-labelledby="now-title">
+      <p class="label" id="now-title">방금 쓴 문장</p>
+      <p class="diary" data-author="user" data-original-ref="r1" lang="en">I had drinks with my coworkers. We talked about our team trip.</p>
+      <p class="caption">10월 2일 다시 씀</p>
+    </section>
+
+    <section class="card" aria-labelledby="before-title">
+      <p class="label" id="before-title">전에 쓴 내 표현</p>
+      <p class="caption">9월 28일 기록 · 원문 그대로</p>
+      <p class="diary" data-author="user" data-original-ref="d1" lang="en">I drink with my company people yesterday. We talked a lot about our team trip. I'm looking forward to it.</p>
+      <div class="saved-phrase">
+        <p class="caption">9월 28일에 저장한 표현</p>
+        <p class="diary" data-author="ai" data-content-role="suggestion" lang="en">have drinks with</p>
+      </div>
+      <a class="link" href="entry.html" data-ui-role="button">9월 28일 기록 전체 보기</a>
+    </section>
+
+    <section class="transfer" data-area="transfer-cue" aria-labelledby="transfer-title">
+      <h2 class="heading" id="transfer-title">다른 상황에서도 써 볼까요?</h2>
+      <p data-author="ai" data-content-role="cue">지난 토요일, 오랜만에 대학 친구들과 저녁에 한잔했다고 가정해 봐요. 그 일을 영어로 한 문장 써 봐요.</p>
+      <div class="input-wrap">
+        <p class="label" id="transfer-label">내 영어로 쓰기</p>
+        <div class="diary input" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="transfer-label" data-interactive="true" data-author="user" data-original-id="t1" lang="en">I had drinks with my old friends last Saturday.</div>
+        <div class="count-row">
+          <p class="caption">47자</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="bottom">
+    <a class="btn-primary" href="home.html" data-ui-role="button">기록하고 홈으로</a>
+  </footer>
+
+</main>
+</body>
+</html>

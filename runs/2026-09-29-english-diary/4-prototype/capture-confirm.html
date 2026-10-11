@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>읽어 온 내용 확인 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
+  ul { list-style: none; }
+  img { display: block; }
+
+  .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
+  .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; }
+  .topbar .caption { padding: 8px; }
+
+  .content { display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 24px; }
+  .head { display: flex; flex-direction: column; gap: 8px; }
+  .meta-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .source { padding: 4px 12px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 999px; }
+
+  .card { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .person-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .person-name { font-size: 16px; font-weight: 600; }
+  .btn-secondary { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 16px; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 12px; font-size: 16px; font-weight: 600; }
+
+  /* OCR로 읽은 말: 사용자 기록이므로 글자 그대로 (PRD 6.1) */
+  .read { display: flex; flex-direction: column; gap: 12px; }
+  .msgs { display: flex; flex-direction: column; gap: 12px; }
+  .msg { display: flex; flex-direction: column; gap: 8px; padding: 12px 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .chip { align-self: flex-start; display: flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 999px; }
+  .chip[aria-pressed="true"] { background: #E4EEEA; color: #1C1B19; border: 1px solid #2F5D50; font-weight: 700; }
+
+  .bottom { position: sticky; bottom: 0; margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 20px; background: #FAF8F4; border-top: 1px solid #E6E2DA; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; background: #2F5D50; color: #FFFFFF; border-radius: 12px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="capture-confirm" data-author="system" aria-label="읽어 온 내용 확인">
+
+  <header class="topbar">
+    <a class="back" href="start-sheet.html" data-ui-role="button" aria-label="기록 시작 선택으로 돌아가기">‹ 시작</a>
+    <p class="caption">10월 2일 금요일</p>
+  </header>
+
+  <div class="content">
+
+    <div class="head">
+      <div class="meta-row">
+        <p class="label source">대화 캡처에서 시작</p>
+        <p class="caption">나만 보기 · 비공개 기록</p>
+      </div>
+      <h1 class="title">읽어 온 내용을 확인해요</h1>
+      <p>캡처에서 읽은 글자는 고치지 않고 그대로 보여 줘요.</p>
+    </div>
+
+    <!-- 대화 상대 확인 (RP-3) -->
+    <section class="card" aria-labelledby="person-title">
+      <p class="label" id="person-title">대화 상대</p>
+      <div class="person-row">
+        <p class="person-name" data-author="user">지수</p>
+        <button class="btn-secondary" type="button" data-ui-role="button">다른 사람으로 바꾸기</button>
+      </div>
+    </section>
+
+    <!-- 쓸 부분 고르기: 내 말만 영어로 쓴다. 번역 채우기·AI 답변 없음 (R15 피할 것) -->
+    <section class="read" aria-labelledby="read-title">
+      <h2 class="heading" id="read-title">읽어 온 말</h2>
+      <p>영어로 쓸 내 말을 골라요.</p>
+      <ul class="msgs">
+        <li class="msg">
+          <p class="caption">지수</p>
+          <p data-author="user">이번 주 금요일에 시간 돼?</p>
+        </li>
+        <li class="msg">
+          <p class="caption">나</p>
+          <p data-author="user">응, 저녁에는 괜찮아. 어디 가고 싶은 데 있어?</p>
+          <button class="chip" type="button" aria-pressed="true" data-ui-role="button"><span aria-hidden="true">✓&nbsp;</span>영어로 쓸 말</button>
+        </li>
+        <li class="msg">
+          <p class="caption">지수</p>
+          <p data-author="user">새로 생긴 파스타집 가 보자!</p>
+        </li>
+        <li class="msg">
+          <p class="caption">나</p>
+          <p data-author="user">좋아. 일곱 시에 역 앞에서 만나자.</p>
+          <button class="chip" type="button" aria-pressed="true" data-ui-role="button"><span aria-hidden="true">✓&nbsp;</span>영어로 쓸 말</button>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer class="bottom">
+    <a class="btn-primary" href="write-conversation.html" data-ui-role="button">이 내용으로 쓰기 시작</a>
+    <a class="btn-secondary" href="write.html" data-ui-role="button">말풍선 없이 한 편으로 쓰기</a>
+  </footer>
+
+</main>
+</body>
+</html>

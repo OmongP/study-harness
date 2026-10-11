@@ -1,0 +1,350 @@
+# design.md — 영어가 내 것이 되는 일기 (서비스별 디자인 기준)
+
+> 실행: `2026-09-29-english-diary` · 작성: 3 디자인 ① (designer, 재실행)
+> 근거: `input/prd.md`, `2-concept/approval.md`(approved: yes, 채택 키스크린 review.html, 2026-10-05), `2-concept/screen-structure.md`, `2-concept/keyscreens/`(review.html · home.html · write.html), `1-research/references.md`(R1~R15, RP-1~RP-8), `harness/design-base.md`, `harness/guides/html-screen-guide.md`, `harness/rules-base.yaml`.
+> 공통 기준(`design-base.md`)을 그대로 따른다. 이 문서는 **이 서비스에만 해당하는 값**(팔레트·폰트·컴포넌트·금지 사항·영역 이름)을 정한다. 공통 기준과 다른 값은 두지 않는다.
+> 판정 SSOT는 이 문서가 아니라 `3-design/rules.yaml`이다. rule-builder는 §2 색 값 목록과 §8 서비스 규칙을 읽어 `service`에 옮긴다.
+> 이전 판(2026-09-29 컨셉 기준)에서 바뀐 점: Comeback Card 버튼 하나 + 이전 표현 잠금, Write 자동 저장 시각·나만 보기·글자 수·하단 도구 줄, Review 원문 카드 사진·'교정 제안' 분리, Conversation 상단 맥락 띠, My English 검색·최신순·구분·날짜 그룹·빈 상태, Review 진입 대기 상태, 기록 시작 시트 라벨+아이콘. 아래 §5·§9에 반영했다.
+
+## 1. 개요
+
+- 성인이 혼자 쓰는 조용한 기록장 톤이다(무드: 차분함 · 개인 기록 · 사실 중심 · 담백함). 교실·게임·SNS 피드처럼 보이면 안 된다.
+- 화면의 주인공은 **사용자가 직접 쓴 영어**다. AI 질문·교정 제안·이유는 보조이며, 원문보다 권위 있어 보이게 두지 않는다.
+- 따뜻한 종이색 배경, 먹색 글자, 절제된 초록 강조, 최소한의 교정 표시만 쓴다. 시각적 풍부함은 사용자 사진이 맡는다.
+- 쉬었다 돌아오는 것은 정상 사용이다(PRD 6.3). 성취는 날짜와 사실로만 보여준다(PRD 6.4).
+- 채택 키스크린 `review.html`의 패턴(사진+원문 카드와 밑줄 표시, 본문과 분리된 '교정 제안' 영역, 수정 1개당 Correction Unit 1개, Reuse Notice, 저장 영역)이 전체 화면의 기준이다. `home.html`·`write.html`도 같은 토큰과 컴포넌트를 쓴다.
+- 화면마다 채워진 주 버튼(`.btn-primary`)은 1개다(RP-1).
+
+## 2. 색 토큰 (B4 허용 목록 — 이 9개 값만)
+
+| 토큰 | 값 | 역할 |
+|---|---|---|
+| `paper` | `#FAF8F4` | 앱 기본 배경, 화면 루트·하단 고정 영역 배경 |
+| `ink` | `#1C1B19` | 본문 글자, 아이콘 선, 사용자 원문 |
+| `surface` | `#FFFFFF` | 카드, 시트, 입력칸, 보조 버튼·도구 버튼 배경, 탭바·맥락 띠 배경, 주 버튼 글자 |
+| `line` | `#E6E2DA` | 1px 테두리, 구분선, 잠금 영역의 가림 막대 |
+| `ink-muted` | `#6B6760` | 보조 글자(caption·메타·보조 설명·placeholder), 비선택 탭 |
+| `accent` | `#2F5D50` | 주 버튼 배경, 쓰는 중 입력칸·선택 상태 테두리, 링크·강조 글자, 교정 제안 글자, 재사용 점선 밑줄 |
+| `accent-soft` | `#E4EEEA` | Memory Comeback Card, Reuse Notice, 선택된 Choice Chip 배경, 내 말풍선 배경 |
+| `mark-issue-soft` | `#FBF1DE` | 다듬어 볼 표현의 배경 표시 |
+| `mark-issue` | `#C8891E` | 다듬어 볼 표현의 실선 밑줄(`border-bottom`) **전용** |
+
+rule-builder용 값 목록 (`service.tokens.colors`):
+`#FAF8F4`, `#1C1B19`, `#FFFFFF`, `#E6E2DA`, `#6B6760`, `#2F5D50`, `#E4EEEA`, `#FBF1DE`, `#C8891E`
+
+색 사용 규칙:
+
+- 위 9개 밖의 색 값은 쓰지 않는다. 오류·빨간 상태색(`danger` 등)은 이번 실행에서 쓰지 않는다. 안내 상태는 `ink` 글자와 문구로 표현한다.
+- **반투명 색을 쓰지 않는다.** 알파가 1 미만인 색(`rgba(…, 0.x)`, `#RRGGBBAA`, `opacity`로 만든 딤·흐림)은 B4 위반이다. 시트 뒤 딤(scrim)을 쓰지 않고 `line` 테두리와 `surface`/`paper` 대비로 구분한다. `box-shadow`·`filter: blur`도 쓰지 않는다(잠금 영역의 "흐리게 가림"은 §5.8의 가림 막대로 표현).
+- 투명(`transparent`)은 "색 없음"으로 허용한다.
+- `mark-issue`(#C8891E)는 글자색으로 쓰지 않는다. 흰 배경 대비가 4.5:1에 못 미친다.
+- 빨간색·취소선·"틀림" 표시로 사용자 영어를 표시하지 않는다.
+- 색만으로 의미를 전달하지 않는다. 밑줄 모양(실선/점선), 라벨 문구, `✓` 기호, 굵기, 구조를 함께 쓴다.
+- 사용자 사진·사진 대체 이미지·아이콘 이미지(`<img>` 안의 색)는 색 규칙 대상이 아니다. 단 아이콘 이미지(§5.13)는 선 색을 `ink` 또는 `accent` 값으로만 그린다. 사진 위에 글자를 얹으면 `data-on-image="true"`를 붙인다(되도록 얹지 않는다).
+
+확인된 글자·배경 조합 (4.5:1 이상):
+
+| 글자 | 배경 | 용도 |
+|---|---|---|
+| `ink` | `paper` / `surface` / `accent-soft` / `mark-issue-soft` | 본문·원문·표시된 표현 |
+| `ink-muted` | `paper` / `surface` / `accent-soft` | caption·메타·보조 설명·placeholder |
+| `accent` | `paper` / `surface` / `accent-soft` | 링크, 교정 제안, 카드 라벨, 선택된 탭·구분 |
+| `surface` | `accent` | 주 버튼 글자 |
+
+위 표에 없는 조합(예: `ink-muted` 글자를 `mark-issue-soft` 위에 두기)은 쓰지 않는다.
+
+## 3. 타이포그래피
+
+폰트:
+
+- UI·한국어: `Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif`
+- 사용자가 쓴 영어(일기 원문·입력·표현 카드의 구): `Newsreader, Georgia, serif`
+
+글자체를 나누는 이유: 사용자 영어는 "내 글"로, AI 설명과 시스템 UI는 중립적으로 보이게 한다. 원문과 AI 제안은 색만이 아니라 **글자체·라벨·위치(별도 '교정 제안' 영역)**로도 구분한다.
+
+| 토큰 / 클래스 | 크기 | 굵기 | 줄 높이 | 용도 |
+|---|---|---|---|---|
+| `display` | 28px | 700 | 1.3 | 화면 핵심 한 문장 (필요할 때만) |
+| `title` `.title` | 22px | 700 | 1.35 | 화면 제목 (`h1`) |
+| `heading` `.heading` | 18px | 600 | 1.4 | 섹션·카드 제목, AI 영어 질문, 회상 단서, 대기 상태 첫 줄 |
+| `body` | 16px | 400 | 1.6 | 기본 UI 글자, AI 이유 설명, 빈 상태 안내 |
+| `body-muted` `.body-muted` | 16px | 400 | 1.6 | `ink-muted` 색의 보조 설명(질문의 한국어 뜻, 시트 선택지 설명, 대기 상태 둘째 줄) |
+| `diary` `.diary` | 18px | 400 | 1.75 | 사용자 영어 원문·입력 (Newsreader) |
+| `diary-preview` `.diary-preview` | 16px | 400 | 1.6 | 목록·카드 안의 원문 미리보기 (Newsreader) |
+| `label` `.label` | 14px | 600 | 1.4 | 짧은 컨트롤 라벨, Choice Chip, 도구 버튼, 탭, 카드 라벨, 날짜 그룹 헤더 |
+| `caption` `.caption` | 13px | 400 | 1.5 | 날짜·메타·자동 저장 상태·글자 수·나만 보기·범례 (`ink-muted`) |
+
+- 16px 미만은 `label` 14px, `caption` 13px 두 가지만 쓴다(B5). 12px·15px 같은 값은 쓰지 않는다. `input`·`button`의 브라우저 기본 글자 크기(13.33px 등)가 남지 않도록 `font: inherit` 후 크기를 명시한다.
+- 설명 문장은 caption으로 쓰지 않는다. 설명은 `body` 16px 이상이다. 단, 한 줄 메타 안내(예: Comeback Card의 "전에 쓴 내 표현은 다시 쓴 뒤에 열어 볼 수 있어요.", 홈 주 버튼 아래 입력 소스 안내)는 키스크린대로 caption을 쓴다.
+- 정보 텍스트에 줄 수 고정(`-webkit-line-clamp`, 고정 높이 + `overflow:hidden`)을 쓰지 않는다. 200% 확대에서도 줄바꿈된다. 미리보기가 길면 전체 기록(entry.html)으로 가는 링크를 둔다.
+- 모두 대문자 강조, 장식 글꼴을 쓰지 않는다.
+
+## 4. 레이아웃 · 모양
+
+공통 기준(`design-base.md` 1·4·5절)을 그대로 따른다.
+
+| 항목 | 값 |
+|---|---|
+| 화면 루트 | `<main data-screen="이름" data-author="system">` 파일당 1개, `width: 390px; height: 844px; overflow-y: auto; background: paper; display:flex; flex-direction:column` |
+| 간격 (padding · gap) | `4 / 8 / 12 / 16 / 20 / 24 / 32`만. 가운데 정렬 외에는 margin 대신 padding·gap으로 간격을 만든다 (`margin-top:auto`로 하단 밀기는 허용) |
+| 화면 좌우 여백 | `20px` (상단 바만 `12px` + 뒤로 가기 안쪽 `8px`) |
+| 섹션 사이 | `16`(Write) · `20`(Review) · `24`(Home) |
+| 카드 안쪽 여백 | `16` (목록 행·표현 카드는 `12`) |
+| 모서리 | `0 / 8 / 12 / 16 / 999`만 |
+| 터치 영역 | 모든 인터랙티브 요소 `44 × 44px` 이상 (`min-height: 44px`, 좁은 링크·뒤로 가기·닫기는 `min-width: 44px`). 주 버튼은 `52px` |
+
+모서리 역할:
+
+| 값 | 쓰는 곳 |
+|---|---|
+| `0` | 탭바·하단 고정 영역·맥락 띠·구분선처럼 모서리 없는 요소 |
+| `8` | 작은 유틸리티 면 (잠금 영역의 가림 막대, 아이콘 칸) |
+| `12` | 버튼, 입력칸, 검색 바, 사진, 시트 선택지 행 |
+| `16` | 카드(원문 카드, Correction Unit, Comeback Card, Reuse Notice, 질문 카드, 기록 행, 표현 카드, 잠금 영역, 빈 상태, 말풍선), 시트 윗모서리 |
+| `999` | Choice Chip, 도구 버튼, 출처 알약, '다른 질문' 버튼, 정렬·구분 버튼 |
+
+- 그림자·그라데이션을 쓰지 않는다. 면 구분은 `surface`/`paper` 대비와 `1px line` 테두리로 한다.
+- 하단 고정 영역 `.bottom`: `position: sticky; bottom: 0; margin-top: auto; display:flex; flex-direction:column; gap:8px; padding: 8px 20px 20px; background: paper; border-top: 1px solid line`.
+- 사진은 콘텐츠다. 사진이 없으면 `surface` 면과 글자 단서로 대신하고, 없는 이미지를 지어내지 않는다.
+- 기능 기호는 `‹`, `✓`, `↓`만 글자로 쓴다. 그 밖의 아이콘은 §5.13의 선 아이콘 이미지만 쓴다. 장식용이면 `aria-hidden="true"`/`alt=""`.
+- 움직임은 상태 변화·이동 설명에만 쓴다. 축하 연출(색종이, 튀는 보상, 불꽃)은 쓰지 않는다.
+
+## 5. 컴포넌트
+
+키스크린에서 쓴 클래스 이름과 값을 전체 화면에서도 그대로 쓴다. 모든 화면은 키스크린 `review.html` 8~19행과 같은 기본 선언(`*` 리셋, `body`, `[data-screen]`, `a`, `button`, `img`, 글자 클래스)으로 시작한다.
+
+### 5.1 상단 바 `.topbar`
+- `display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 12px`.
+- 뒤로 가기 `.back`: `<a href>` + `min-height:44px; min-width:44px; padding:8px`, 글자 16px 600, `‹ 이전화면이름`, `aria-label` 필수(예: "홈으로 돌아가기").
+- 오른쪽: 날짜(`caption`, "9월 28일 월요일"). 작성 화면(write · write-conversation · recall)에서는 날짜 오른쪽에 자동 저장 상태(§5.10)를 함께 둔다.
+
+### 5.2 버튼
+| 종류 | 배경 | 글자 | 테두리 | 크기·모서리 |
+|---|---|---|---|---|
+| 주 `.btn-primary` | `accent` | `surface` 16px 600 | 없음 | `min-height:52px; padding:12px 20px; radius 12` |
+| 보조 `.btn-secondary` | `surface` | `ink` 16px 600 | `1px line` | `min-height:44px; padding:8px 16px; radius 12` |
+| 강조 외곽 `.btn-accent-outline` | `surface` | `accent` 16px 600 | `1px accent` | `min-height:44px; padding:8px 16px; radius 12` |
+| 텍스트 링크 `.link` | 없음 | `accent` 14px 600, 밑줄(offset 4px) | 없음 | `min-height:44px; padding:8px 0; align-self:flex-start` |
+| 도구 `.tool` | `surface` | `ink` 14px 600 | `1px line` | `min-height:44px; padding:8px 12px; radius 999` |
+
+- 화면마다 주 버튼은 1개다. 이전 판의 `.btn-ghost`(넘기기)는 **쓰지 않는다**.
+- 화면 이동은 `<a href="다른화면.html">`로 한다(가이드 10절). 이동이 없는 동작만 `<button type="button">`으로 둔다.
+- 모든 버튼·링크에 `data-ui-role="button"`(탭은 `tab`, 누르는 카드는 `card`)을 붙인다.
+- 주 버튼을 글자 수로 비활성화하지 않는다. "N자 이상 써야 해요" 같은 차단 툴팁을 두지 않는다(R2 피할 것).
+
+### 5.3 Choice Chip `.chip` — 반영 / 내 표현 유지
+- `radius 999; min-height:44px; padding:8px 16px; label 14px 600; background surface; border 1px line; color ink`.
+- 선택 상태 `[aria-pressed="true"]`: `background accent-soft; border 1px accent; font-weight 700` + 앞에 `<span aria-hidden="true">✓&nbsp;</span>`. 색만으로 선택을 알리지 않는다.
+- Correction Unit 안의 선택지는 `data-choice="apply"`(반영) / `data-choice="keep"`(내 표현 유지). **`keep`에만 `data-default="true"`와 `aria-pressed="true"`**. 둘을 `.choices role="group"`과 `aria-label`로 묶는다.
+- 일괄 반영·전체 Rewrite·"교정된 일기" 전체 전환 토글은 두지 않는다.
+- '다른 질문' 버튼은 같은 모양에 글자 `accent`, `align-self:flex-start`, `aria-label="다른 질문으로 바꾸기"`.
+
+### 5.4 원문 카드 `.original` (Review · Entry)
+- `surface` 배경, `1px line`, `radius 16`, `padding 16`, `gap 12`.
+- 순서: 라벨 "내가 쓴 글 · 원문 그대로 보관돼요"(`label`) → 그날 사진 `.photo`(폭 100%, 높이 120px, `object-fit:cover`, `radius 12`, 의미 있는 `alt`) → 원문(`diary`, `data-author="user"`, `data-original-ref`) → 범례 caption.
+- 사진과 원문 본문은 **한 카드 안에** 둔다(R3). 사진이 없는 기록은 사진 칸을 빼고, 대화 캡처 기록이면 사진 대신 출처 알약(§5.12)을 둔다.
+- 원문 글자는 한 글자도 바꾸지 않는다. 처음 쓴 곳은 `data-original-id`, 다시 보여주는 곳은 같은 값의 `data-original-ref`.
+- 다듬어 볼 표현 `.mark`: `background mark-issue-soft; border-bottom 2px solid mark-issue`(실선).
+- 스스로 다시 쓴 표현 `.reused`: `border-bottom 2px dotted accent`(점선).
+- 범례 caption: "실선 밑줄: 다듬어 볼 수 있는 표현 · 점선 밑줄: 스스로 다시 쓴 표현".
+- 취소선(`line-through`, `<s>`, `<del>`, `<strike>`)은 쓰지 않는다.
+
+### 5.5 '교정 제안' 영역 `.units` + Correction Unit `.unit` (`data-ui-role="correction-unit"`)
+- AI 제안은 원문 카드와 **분리된 섹션**에 둔다(R7): `<section class="units" aria-labelledby>` + `h2.heading` "교정 제안", 카드 사이 `gap 12`. 순서는 원문 카드 → Reuse Notice(있을 때) → 교정 제안 → 저장 영역.
+- `.unit`: `surface`, `1px line`, `radius 16`, `padding 16`, `gap 12`. 수정 1개당 카드 1개, `aria-label="첫 번째 교정 제안"`.
+- 순서 고정 (`.unit-row` = `flex column, gap 4`, 각 행 위에 caption 라벨):
+  1. "내 표현" — `diary`, `data-author="user"`, `<span class="mark">`
+  2. `↓` (caption, `aria-hidden="true"`)
+  3. "자연스러운 표현" — `diary` + `.suggest`(`accent` 글자), `data-author="ai" data-content-role="suggestion"`
+  4. "이유" — `body`, `data-author="ai" data-content-role="explanation"`
+  5. 선택(§5.3)
+- 모든 제안에 이유가 있다. 제안이 원문보다 크거나 굵게 보이지 않는다(제안도 `diary` 18px 400).
+- 교정 요약에 개수·점수("2개 수정") 문구를 쓰지 않는다.
+
+### 5.6 Reuse Notice `.reuse`
+- `accent-soft` 배경, `radius 16`, `padding 16`, `gap 8`, `data-ui-role="card"`. 라벨 "스스로 다시 쓴 표현"(`label`, `accent`).
+- 다시 쓴 표현(`.phrase`, `data-author="user"`, Newsreader 600) + 사실 문장("를 이번엔 힌트 없이 직접 썼어요.") + 날짜 caption("9월 14일 처음 배움 · 9월 28일 스스로 씀") + `.link` "이 표현의 Expression Journey 보기" → expression-journey.html.
+- 여러 개면 한 알림 안에 항목을 나눠 쌓는다. 축하 문구·아이콘은 쓰지 않는다.
+- 전이 단서를 보고 쓴 답, 회상 화면에서 쓴 답은 Reuse Notice에 넣지 않는다.
+
+### 5.7 Memory Comeback Card `.comeback` (`data-area="comeback"`)
+- `accent-soft` 배경, `radius 16`, `padding 16`, `gap 12`, `data-ui-role="card"`. 앱을 연 시점에 카드 1개만 둔다.
+- 구성(키스크린 home.html 그대로): 라벨 "다시 떠올려 볼 기억"(`label`, `accent`) → 과거 사진(높이 160px, `radius 12`) → 날짜 caption("9월 28일의 기록에서") → 한국어 단서(`heading`, `data-author="ai" data-content-role="cue"`) → **버튼 하나** [떠올려 쓰기 시작](`.btn-accent-outline` → recall.html) → caption "전에 쓴 내 표현은 다시 쓴 뒤에 열어 볼 수 있어요."
+- '지금은 넘기기' 같은 두 번째 버튼, 정답 영어, 남은 개수·할당량("2문장"), 공백 일수, 스트릭은 넣지 않는다. 인사는 "다시 만나서 반가워요"처럼 쉰 기간을 말하지 않는다.
+- 카드의 주 버튼이 아니므로 채워진 `.btn-primary`를 쓰지 않는다(홈의 주 버튼은 '오늘 기록하기' 하나).
+
+### 5.8 이전 표현 잠금 영역 `.locked` (recall.html)
+- 회상 답을 쓰기 전에는 이전 내 표현을 보여주지 않는다(RP-5, R11). `data-area="recall"` **밖**에 둔다.
+- `surface`, `1px line`, `radius 16`, `padding 16`, `gap 12`, `aria-labelledby`.
+- 구성: 라벨 "전에 쓴 내 표현"(`label`) → 가림 막대 `.veil`(`aria-hidden="true"`, 막대 2~3개: `background line; height 12px; radius 8`, 폭 100%/80%/60%) → 안내 caption.
+- 가림은 막대 모양으로만 표현한다. 실제 이전 문장을 넣고 `blur`·`opacity`로 흐리게 하지 않는다(정답 노출·B4 위반 방지).
+- 열기 버튼 "전에 쓴 내 표현 열기":
+  - 쓰기 전 상태: `<button type="button" aria-disabled="true" disabled>` + caption "영어로 다시 쓴 뒤에 열 수 있어요."
+  - 쓴 뒤 상태(recall.html 정적 화면의 기준 상태): `<a class="btn-primary" href="recall-check.html" data-ui-role="button">` — 사용자가 직접 눌러야 recall-check.html에서 열린다. 이 버튼이 recall.html의 유일한 주 버튼이다.
+- '정답 확인'·'AI 풀이 보기' 같은 문구는 쓰지 않는다.
+
+### 5.9 질문 카드 `.question`
+- `surface`, `1px line`, `radius 16`, `padding 16`, `gap 8`, `data-ui-role="card"`.
+- 안내 caption("사진을 보고 떠올려 봐요") → 영어 질문 하나(`heading`, `data-author="ai" data-content-role="question"`, `lang="en"`) → 한국어 뜻(`.body-muted`, `question`) → [다른 질문] 칩(§5.3).
+- 질문은 한 번에 1개만. 예시 문장·완성 답·추적 표현·placeholder 모범 문장은 넣지 않는다. 마스코트 말풍선 모양으로 만들지 않는다.
+
+### 5.10 영어 입력칸 `.input` + 자동 저장 · 글자 수 · 나만 보기
+- `.input-wrap`(`gap 8`): 라벨 "내 영어로 쓰기"(`label`, `id`) → 입력칸 → 글자 수 줄.
+- 입력칸: `diary` 서체, `surface`, `1px accent`(쓰는 중) 또는 `1px line`, `radius 12`, `padding 16`, `min-height 180px`(대화 말풍선 아래는 `88px`까지). `role="textbox" contenteditable="true" aria-multiline="true" data-interactive="true"` 또는 `<textarea>`. `aria-labelledby`로 라벨 연결, `data-author="user"`, `lang="en"`.
+- 글자 수 `.count-row`: `display:flex; justify-content:flex-end`, caption "105자". 최소·최대 기준이나 경고 문구를 붙이지 않는다.
+- 자동 저장 상태 `.saved`: 상단 바 오른쪽, caption "자동 저장됨 · 오후 9:12", `role="status" aria-live="polite"`, `padding 8`. '나가면 저장되지 않아요' 경고는 두지 않는다(RP-8).
+- 나만 보기: 작성 영역 맨 위 `.meta-row`(`flex; justify-content:space-between; gap 8`)에 출처 알약(§5.12) 왼쪽, caption "나만 보기 · 비공개 기록" 오른쪽. 공개·공유 토글은 두지 않는다.
+- 쓰는 중에는 추적 표현 힌트를 보여주지 않는다.
+
+### 5.11 하단 도구 줄 `.tools` (write.html)
+- `.bottom` 안, 주 버튼 위. `role="group" aria-label="첨부 도구"`, `display:flex; gap 8`.
+- `.tool` 버튼 2개: "사진 바꾸기", "텍스트 스캔"(`<button type="button" data-ui-role="button">`). 보조 진입점이며 주 버튼보다 눈에 띄지 않는다.
+- 그 아래 주 버튼 "다 썼어요 · 교정 보기" → review.html.
+
+### 5.12 출처 알약 `.source`
+- "사진에서 시작" / "대화 캡처에서 시작" / "텍스트 스캔에서 시작" / "바로 쓰기": `label`, `surface`, `1px line`, `radius 999`, `padding 4px 12px`. 누를 수 없는 표시다.
+
+### 5.13 입력 소스 아이콘 `.src-icon` (start-sheet.html)
+- 기록 시작 시트에서 텍스트 라벨과 **쌍으로만** 쓴다(R9). 아이콘만으로 고르게 하지 않는다.
+- `<img class="src-icon" alt="" aria-hidden="true">` 24×24, data-URI SVG 선 아이콘(선 색 `%231C1B19` 또는 `%232F5D50`, 채움 없음). 사진(사각+원), 대화 캡처(말풍선), 텍스트 스캔(사각 틀+가로줄), 바로 쓰기(연필 선) 4종.
+- 아이콘 칸 `.src-icon-box`: `40×40`, `surface`, `1px line`, `radius 8`, 가운데 정렬. 이모지·캐릭터 아이콘은 쓰지 않는다.
+
+### 5.14 기록 시작 시트 · 저장 시트 `.sheet` (start-sheet.html · save-expression.html)
+- 별도 HTML 화면. 위쪽은 `paper` 배경 그대로 두고(딤 없음), 아래 시트는 `surface` + `border-top 1px line` + `border-radius 16px 16px 0 0` + `padding 16px 20px 24px` + `gap 12`, `margin-top:auto`.
+- 시트 머리: 제목(`heading`) + 닫기(`<a href="home.html">`, 44×44, `aria-label="닫기"`, 글자 "닫기" `label`).
+- **기록 시작 시트**: 4개 선택지 세로 목록 — 사진 / 대화 캡처 / 텍스트 스캔 / 바로 쓰기. 각 행 `<a href>`(`surface`, `1px line`, `radius 12`, `padding 16`, `gap 12`, `display:flex; align-items:center`, `min-height 44`) = 아이콘 칸(§5.13) + [제목 `body` 600 + 한 줄 설명 `.body-muted`]. 이동: 사진·바로 쓰기 → write.html, 대화 캡처·텍스트 스캔 → capture-confirm.html. 프리미엄·왕관 배지·초대 배너 같은 업셀, 완성 일기를 만들어 주는 선택지는 두지 않는다.
+- **추적 표현 저장 시트**: 안내 `body` "다시 써 보고 싶은 표현을 골라요" → 후보 구 단위 표현을 Choice Chip 체크 목록(§5.3 모양, `aria-pressed`)으로. 기본은 **아무것도 선택되지 않은 상태**이고 사용자가 고른다. 후보가 사용자 원문이면 `data-author="user"`, 교정 제안에서 온 표현이면 `data-author="ai" data-content-role="suggestion"`. 주 버튼 "고른 표현 저장하기" → home.html.
+
+### 5.15 Conversation UI (write-conversation.html)
+- 상단 바 아래 **맥락 띠** `.context`: `position: sticky; top: 0; background surface; border-bottom 1px line; radius 0; padding 12px 20px; gap 4; flex column`. 1줄 `body` 600 "지수와의 대화" + caption "10월 2일 카카오톡 캡처 · 내 말만 영어로 써요". 누구와의 대화인지·캡처 날짜만 담는다.
+- 말풍선 `.bubble`: `radius 16`, `padding 12px 16px`, 최대 폭 85%. 상대 말 `.bubble-them`: `surface` + `1px line`, 왼쪽 정렬. 내 말 `.bubble-me`: `accent-soft`, 오른쪽 정렬. 말풍선 원문(OCR로 읽은 한국어)은 사용자 기록이므로 `data-author="user"`, 글자 그대로 둔다.
+- 내 말풍선마다 바로 아래 영어 입력칸(§5.10, `min-height 88px`, 각자 라벨 "이 말을 내 영어로", `data-original-id="c1"`, `"c2"` …).
+- AI는 말풍선마다 영어 질문(`question`)만 줄 수 있다. '답변을 도와주세요'·번역 채우기·AI 답변 버튼은 두지 않는다(R15 피할 것).
+- 상단 바에 자동 저장 상태(§5.10), 하단 `.bottom`에 주 버튼 "다 썼어요 · 교정 보기" → review.html. 캐릭터 아이콘 버튼 없음.
+
+### 5.16 기록 행 `.record` (Home 최근 기록)
+- `<a href="entry.html" data-ui-role="card" aria-label="9월 28일 기록 열기">`: `surface`, `1px line`, `radius 16`, `padding 12`, `gap 12`, `min-height 44`.
+- 썸네일 64×64 `radius 12` + `.meta`(`gap 4`): caption "9월 28일 · 사진에서 시작" + 원문 미리보기(`diary-preview`, `data-author="user"`, 필요하면 `data-original-ref`).
+- 미리보기는 원문을 바꾸지 않는다. 줄 수를 강제로 자르지 않는다.
+
+### 5.17 My English 목록 (my-english.html)
+- **검색 바** `.search`: `<input type="search" aria-label="표현 검색">`, `font: inherit; font-size 16px; min-height 44px; padding 8px 16px; background surface; border 1px line; radius 12; color ink`, placeholder "표현 검색"(`::placeholder` `ink-muted`).
+- **구분** `.segment`(`role="group" aria-label="표현 구분"`, `display:flex; gap 8`): 버튼 2개 "저장한 표현" / "스스로 다시 쓴 표현". `.chip` 모양, 선택된 쪽 `aria-pressed="true"` + `accent-soft` + `1px accent` + 700 + `✓`. 개수를 붙이지 않는다.
+- **정렬** `.sort`: 오른쪽 정렬 `<button type="button">` "최신순"(`label`, `ink`, `surface`, `1px line`, `radius 999`, `min-height 44`, `padding 8px 16px`, `aria-label="정렬: 최신순"`).
+- **날짜 그룹 헤더** `.group-head`: `h2` `label` `ink-muted`, "10월 2일 금요일", 헤더와 카드 사이 `gap 8`, 그룹 사이 `gap 20`.
+- **표현 카드** `.expr`: `<a href="expression-journey.html" data-ui-role="card">`, `surface`, `1px line`, `radius 16`, `padding 12px 16px`, `gap 4`, `min-height 44`, flex column. 구 단위 표현 한 줄(`diary` 18px, Newsreader, 사용자 원문에서 나온 구면 `user`, 교정 제안에서 저장한 구면 `ai`+`suggestion`) + 사실 caption("9월 28일 저장 · 교정 제안에서" / "9월 14일 처음 배움 · 9월 28일 스스로 씀"). 스스로 다시 쓴 표현은 구 아래 `.reused` 점선 밑줄 + caption 문구로 함께 구분한다.
+- 진행률·퍼센트·랭킹·숙련도·"N개 남음"을 쓰지 않는다.
+- **빈 상태** `.empty`: `surface`, `1px line`, `radius 16`, `padding 16`. `body` 한 문장 "교정 보기에서 다시 써 보고 싶은 표현을 저장하면 여기에 모여요."만 둔다. 큰 "0", 일러스트, 독촉 문구 없음.
+
+### 5.18 Expression Journey 타임라인 (expression-journey.html)
+- 상단: 표현(`diary` 600, `lang="en"`) + caption "처음 쓴 날부터 스스로 쓴 날까지의 기록".
+- `<ol class="journey">` 세로 목록. 세로선은 `border-left: 2px solid line`(목록 왼쪽 하나), 각 단계 `.step`(`padding 0 0 20px 16px; gap 8; flex column`).
+- 단계 머리: 날짜 caption + 단계 이름(`label`: 처음 씀 / 교정 / 떠올림 / 스스로 씀). 본문: 근거 원문 발췌(사용자 원문이면 `diary`·`user`, 원문 id가 있으면 `data-original-ref`) 또는 사실 문장(`body`) + 필요하면 `.link` "9월 28일 기록 보기" → entry.html.
+- 경과 시간("14일 경과")·간격 수치·진행률·단계 수("3/4")·완료 표시는 쓰지 않는다. 일어난 단계만 보여주고, 일어나지 않은 단계를 빈칸·"미완료"로 두지 않는다.
+- "떠올림"은 사용자가 떠올렸다고 직접 확인했을 때만, "스스로 씀"은 나중에 힌트 없이 쓴 새 일기 원문을 근거로만 붙인다.
+
+### 5.19 Review 진입 대기 상태 `.pending` (review-pending.html)
+- 쓰기에서 교정 보기로 넘어가는 동안 보이는 상태. 화면 가운데(`flex:1; justify-content:center; padding 0 20px; gap 4`)에 `role="status" aria-live="polite"`로 두 줄만:
+  - 1줄 `heading` "일기 저장 중"
+  - 2줄 `.body-muted` "교정을 준비하고 있어요"
+- 아래에 `.link` "교정 보기로 넘어가기" → review.html (정적 프로토타입에서 넘어가기 위한 연결).
+- 캐릭터·일러스트·진행률 바·퍼센트·'나가면 저장되지 않아요' 경고를 두지 않는다. 회전 표시가 필요하면 쓰지 않고 문구로만 알린다.
+
+### 5.20 탭바 `.tabbar`
+- 홈 / My English 2개. `position:sticky; bottom:0; margin-top:auto; display:flex; gap 8; padding 4px 20px 8px; background surface; border-top 1px line`.
+- 탭 `.tab`: `<a href>`, `flex:1`, `min-height 44`, `label` 14px 400, `ink-muted`. 현재 탭은 `aria-current="page"` + `accent` + 700 + 밑줄(색만으로 구분하지 않음). `data-ui-role="tab"`.
+- 탭바는 home.html, my-english.html에만 둔다.
+
+## 6. `data-area` 영역 이름
+
+S1(AI 대필 금지) 검사 대상 영역. 아래 이름만 쓴다.
+
+| `data-area` | 붙는 곳 | 화면 | 안에 둘 수 있는 AI 텍스트 |
+|---|---|---|---|
+| `write` | 영어 직접 작성 영역 (메타 줄 + 사진 + 질문 카드 + 입력칸 / 말풍선 + 입력칸 전체) | write.html, write-conversation.html | `question` |
+| `comeback` | Memory Comeback Card 전체 | home.html | `cue` |
+| `recall` | 떠올려 쓰기 영역 (과거 사진 + 한국어 단서 + 입력칸) | recall.html | `cue`, `question` |
+| `transfer-cue` | 전이 단서 영역 (다른 상황 제시 + 입력칸) | recall-check.html | `cue`, `question` |
+
+- 위 4개 영역 안에서 `data-content-role`이 `completed_answer`, `diary_body`, `model_answer`인 요소는 0개여야 한다.
+- 회상·전이 영역에는 **정답이 되는 영어 표현**을 `cue`·`question` 안에도 넣지 않는다. 단서는 한국어 또는 상황을 묻는 영어 질문으로만 쓴다.
+- recall.html의 잠금 영역(§5.8)과 recall-check.html의 "전에 쓴 내 표현"(사용자 원문·저장 표현)은 `recall`·`transfer-cue` 영역 **밖**에 둔다.
+- 맥락 띠(§5.15)와 하단 `.bottom`은 `write` 영역 밖에 둔다.
+
+## 7. 메타데이터 적용 (가이드 3·7·8·17절)
+
+- 화면 루트 `<main data-screen="…" data-author="system" aria-label="…">`. 시스템 문구는 루트에서 `system`을 물려받는다.
+- 사용자 글(원문, 입력, 대화 캡처 원문, 다시 쓴 표현, 사용자 원문에서 고른 구)은 `data-author="user"`.
+- AI 글은 반드시 `data-author="ai"` + `data-content-role`. 이번 서비스에서 쓰는 역할은 `question`, `cue`, `suggestion`, `explanation` 네 가지뿐이다. `completed_answer`·`diary_body`·`model_answer`는 쓰지 않는다.
+- 원문 짝짓기 ID:
+
+| ID | 원문 | `data-original-id` 위치 | `data-original-ref` 위치 |
+|---|---|---|---|
+| `d1` | `I drink with my company people yesterday. We talked a lot about our team trip. I'm looking forward to it.` | write.html 입력칸 | review.html 원문 카드, home.html 최근 기록, entry.html, recall-check.html(전에 쓴 내 표현), expression-journey.html(스스로 씀) |
+| `c1`, `c2` … | 대화 캡처에서 내 말마다 쓴 영어 | write-conversation.html 입력칸 | (다시 보여주는 화면이 있으면 그곳) |
+| `r1` | `I had drinks with my coworkers. We talked about our team trip.` | recall.html 입력칸 | recall-check.html(방금 쓴 문장) |
+| `t1` | `I had drinks with my old friends last Saturday.` | recall-check.html 전이 입력칸 | — |
+
+- `data-original-ref` 텍스트는 원본과 정확히 같아야 한다. 강조는 `<span class="mark">`·`<span class="reused">`처럼 글자를 바꾸지 않는 감싸기로만 한다.
+- 9월 14일 기록 원문(`I walked along the river with my friend. I look forward to go camping this weekend.`)은 ID 없이 쓰되, 보여주는 곳마다 글자를 똑같이 쓴다.
+
+## 8. 서비스 금지 사항 → 판정 규칙 (rule-builder 입력)
+
+| ID | 금지 사항 | 근거 | 검사 종류 · 값 제안 |
+|---|---|---|---|
+| **S1 ★** | AI 대필 금지: 작성·회상·전이 영역에 완성 답, 일기 본문, 모범 답안을 두지 않는다 | PRD 6.5, 3 EXPRESS·RECALL, 7 | `forbid_in_areas`, values `[completed_answer, diary_body, model_answer]`, areas `[write, comeback, recall, transfer-cue]`, critical |
+| **S2 ★** | 원문 보존: 다시 보여주는 원문은 원본과 글자가 같고, 취소선이 없다 | PRD 6.1, 7 (자동 Rewrite 금지) | `original_preserved`, critical |
+| **S3 ★** | 선택권 기본값: 모든 Correction Unit의 기본 선택은 "내 표현 유지" | PRD 6.2, 3 CORRECT | `default_choice`, unit_role `correction-unit`, expected `keep`, critical |
+| S4 | 게임화 요소 금지: 스트릭, 공백 일수, 점수, 등급, 숙련도 단계, 진행률 바, 배지, 순위 | PRD 6.3, 6.4, 7 | `forbid_values`, values `[streak, score, level, progress_bar, badge, ranking, missed_day_count]` |
+
+기계로 세지 않지만 지키는 금지 사항:
+
+- 작성 중 추적 표현 힌트를 보여주지 않는다(PRD 5 Write, 7).
+- 미완료 표현 개수, "N일 만이에요"·"N일 경과"·"N시간 간격" 같은 공백·간격 언급, 남은 시간 카운트다운, 독촉 문구를 쓰지 않는다(PRD 6.3, R1·R14 피할 것).
+- Comeback Card에 두 번째 버튼·개수 할당·정답 영어를 두지 않는다(RP-5).
+- 회상 전에 이전 내 표현을 보여주지 않고, 회상 확인에 '정답'·'오답'·판정 체크 표시를 쓰지 않는다(RP-5, R11).
+- '나가면 저장되지 않아요' 경고, 글자 수 차단 툴팁, 캐릭터 대기 화면을 쓰지 않는다(RP-8, R2·R5).
+- 캐릭터·마스코트·이모지 일러스트·축하 연출을 쓰지 않는다(PRD 7). `✓`, `‹`, `↓`만 기능 기호로 쓰고, 그 밖의 아이콘은 §5.13의 선 아이콘만 쓴다.
+- 빨간색·취소선·"틀림"·"오답" 표현, "교정된 일기" 전체 전환 토글을 쓰지 않는다(R3 피할 것).
+- 공개 피드·게시·팔로우·공유·순위·업셀 배지를 만들지 않는다(PRD 7, R3·R9 피할 것).
+- 대화 화면에 AI 답변 도움 버튼을 두지 않는다(R15 피할 것).
+- 전이 단서를 보고 쓴 답을 Reuse(스스로 씀)로 표시하지 않는다(PRD 3 RECALL).
+- 교정 요약에 개수·점수처럼 채점으로 읽히는 문구를 쓰지 않는다.
+
+사람 확인 항목 (rule-builder `service.human_checks` 제안):
+
+- 성인 톤: 캐릭터·마스코트·이모지 일러스트·축하 연출이 없고 전체 인상이 조용한 기록장인지
+- 회상·전이 단서(cue·question)에 정답이 되는 영어 표현이나 완성 문장이 드러나지 않는지(문장 의미 확인)
+- recall.html에서 이전 내 표현이 다시 쓰기 전에 보이지 않고, 사용자가 직접 눌러야 열리는지
+- Reuse(스스로 씀)는 새 일기에서 힌트 없이 쓴 경우만 표시하고, 전이 단서를 보고 쓴 답은 Reuse Notice·Expression Journey에 넣지 않았는지
+- Write·Conversation 화면(작성 중)에 추적 표현 힌트·AI 답변 도움이 보이지 않는지
+- 공백·간격 언급, 미완료 개수, 남은 시간, 독촉·저장 경고 문구가 없는지
+- 빨간색·"틀림"·"오답" 표현, 교정 요약의 개수·점수 문구, 교정본 전체 전환 토글이 없는지
+- 공개 피드·공유·업셀 등 SNS·판매형 요소가 없는지
+- 일괄 반영 버튼이 없고 교정 제안이 원문보다 권위 있게(크거나 굵게) 보이지 않는지
+- 기록 시작 시트의 아이콘이 항상 텍스트 라벨과 함께 있는지
+
+## 9. 화면 목록과 패턴
+
+`2-concept/screen-structure.md`의 12개 화면을 `3-design/screens/`에 같은 파일 이름으로 만든다. 여기에 흐름 밖 **상태 화면** 2개를 더한다(키스크린·흐름 표는 바꾸지 않는다).
+
+| 화면 | `data-screen` | 핵심 패턴 (위→아래) | `data-area` |
+|---|---|---|---|
+| home.html | `home` | 날짜 caption · 인사 title("다시 만나서 반가워요") · Comeback Card(버튼 하나 → recall, 잠금 안내 caption) · 주 버튼 '오늘 기록하기'(→ start-sheet) + 입력 소스 caption · 최근 기록(→ entry) · 탭바 | `comeback` |
+| start-sheet.html | `start-sheet` | 시트 제목 "무엇으로 시작할까요?" · 닫기 · 아이콘+라벨 선택지 4개(사진·바로 쓰기 → write, 대화 캡처·텍스트 스캔 → capture-confirm) | — |
+| capture-confirm.html | `capture-confirm` | 상단 바 · 제목 "읽어 온 내용을 확인해요" · 대화 상대 확인(이름 `body` 600 + "다른 사람으로 바꾸기" 보조 버튼) · OCR로 읽은 말 목록(사용자 기록, `user`, 그대로) · 쓸 부분 고르기 칩 · 주 버튼(대화 캡처 → write-conversation / 텍스트 스캔 → write) | — |
+| write.html | `write` | 상단 바(뒤로 · 날짜 · 자동 저장 시각) · 출처 알약 + 나만 보기 · 사진 · 질문 카드(+다른 질문) · 입력칸 + 글자 수 · `.bottom`(도구 줄 + 주 버튼 → review) | `write` |
+| write-conversation.html | `write-conversation` | 상단 바(뒤로 → capture-confirm · 자동 저장) · sticky 맥락 띠 · 상대/내 말풍선 + 내 말마다 입력칸 · `.bottom` 주 버튼 → review | `write` |
+| review-pending.html *(상태)* | `review-pending` | 대기 두 줄 "일기 저장 중 / 교정을 준비하고 있어요"(`role="status"`) · 링크 → review | — |
+| review.html | `review` | 상단 바 · 제목 "교정 보기" + 안내 · 원문 카드(사진+원문+범례) · Reuse Notice(→ expression-journey) · '교정 제안' 영역(Correction Unit) · 저장 영역(주 → save-expression, 보조 '저장 없이 마치기' → home) | — |
+| save-expression.html | `save-expression` | 추적 표현 저장 시트, 아무것도 선택 안 된 상태에서 사용자가 고름 · 주 버튼 → home | — |
+| recall.html | `recall` | 상단 바(뒤로 → home · 자동 저장) · 과거 사진 · 날짜 caption · 한국어 단서 · 입력칸(r1) · 잠금 영역(가림 막대 + '전에 쓴 내 표현 열기' 주 버튼 → recall-check) | `recall` |
+| recall-check.html | `recall-check` | 방금 쓴 문장(r1) · 사용자가 연 전에 쓴 내 표현(d1, 저장한 구 have drinks with) 나란히 · 판정·점수·체크 없음 · "9월 28일 기록 전체 보기" 링크(→ entry) · (필요하면) 전이 단서 영역(한국어 상황 + 입력칸 t1) · 주 버튼 "기록하고 홈으로" → home | `transfer-cue` |
+| entry.html | `entry` | 상단 바 · 날짜 제목 · 원문 카드(사진+d1) · 내가 고른 교정 기록(제안·이유·선택 결과를 사실로) | — |
+| my-english.html | `my-english` | 제목 · 검색 바 · 구분(저장한 표현 / 스스로 다시 쓴 표현) + 최신순 · 날짜 그룹 헤더 · 구 단위 표현 카드(→ expression-journey) · 탭바 | — |
+| my-english-empty.html *(상태)* | `my-english-empty` | my-english와 같은 머리(검색·구분·정렬) + 빈 상태 한 문장 · 탭바 | — |
+| expression-journey.html | `expression-journey` | 상단 바(뒤로 → my-english) · 표현 제목 · 세로 타임라인(9월 14일 처음 씀 → 9월 14일 교정 → 9월 21일 떠올림 → 9월 28일 스스로 씀, 날짜와 원문 발췌) | — |
+
+- 날짜 예시는 흐름과 맞춘다: 9월 14일 looking forward to 처음 씀·교정 → 9월 21일 떠올림 → 9월 28일 회식 일기(`d1`)에서 스스로 씀 + have drinks with·coworkers 교정 → 10월 2일 돌아와 떠올림(`r1`)·전이(`t1`), 지수와의 대화 캡처.
+- 화면 사이 이동은 `screen-structure.md`의 F1~F12를 모두 `<a href>`로 잇는다. write.html·write-conversation.html의 주 버튼은 **review.html로 바로** 연결한다(F2·F5 유지). 상태 화면 2개는 흐름에 끼우지 않고 따로 열어 보는 화면이며, 같은 Gate 규칙(B1~B7, 메타데이터)을 지킨다.
+- 상태 화면은 정적 화면 하나에 한 상태만 그린다: recall.html은 "다 쓴 뒤" 상태(열기 버튼 활성), my-english.html은 목록이 있는 상태로 그린다.

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>다시 쓸 표현 저장 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button { font: inherit; color: #1C1B19; background: #FFFFFF; border: 1px solid #E6E2DA; cursor: pointer; }
+  img { display: block; }
+
+  .caption { font-size: 13px; line-height: 1.5; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .heading { font-size: 18px; font-weight: 600; line-height: 1.4; }
+
+  /* 시트: 딤 없이 paper 위에 surface 면 + line 테두리 (design.md §2, §5.14) */
+  .sheet { margin-top: auto; display: flex; flex-direction: column; gap: 12px; padding: 16px 20px 24px; background: #FFFFFF; border-top: 1px solid #E6E2DA; border-radius: 16px 16px 0 0; }
+  .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .close { display: flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 8px; color: #1C1B19; }
+
+  /* 기본은 아무것도 선택되지 않은 상태. 사용자가 직접 고른다 (PRD 6.2) */
+  .group { display: flex; flex-direction: column; gap: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { display: flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #FFFFFF; color: #1C1B19; border: 1px solid #E6E2DA; border-radius: 999px; }
+  .chip[aria-pressed="true"] { background: #E4EEEA; color: #1C1B19; border: 1px solid #2F5D50; font-weight: 700; }
+
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 20px; background: #2F5D50; color: #FFFFFF; border-radius: 12px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="save-expression" data-author="system" aria-label="다시 쓸 표현 저장">
+
+  <section class="sheet" aria-labelledby="sheet-title">
+    <div class="sheet-head">
+      <h1 class="heading" id="sheet-title">다시 쓸 표현 저장</h1>
+      <a class="close label" href="home.html" data-ui-role="button" aria-label="닫기">닫기</a>
+    </div>
+
+    <p>다시 써 보고 싶은 표현을 골라요</p>
+
+    <div class="group">
+      <p class="caption" id="from-ai">교정 제안에서</p>
+      <div class="chips" role="group" aria-labelledby="from-ai">
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button" data-author="ai" data-content-role="suggestion" lang="en">have drinks with</button>
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button" data-author="ai" data-content-role="suggestion" lang="en">coworkers</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <p class="caption" id="from-user">내가 쓴 글에서</p>
+      <div class="chips" role="group" aria-labelledby="from-user">
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button" data-author="user" lang="en">talked a lot about</button>
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button" data-author="user" lang="en">team trip</button>
+      </div>
+    </div>
+
+    <a class="btn-primary" href="home.html" data-ui-role="button">고른 표현 저장하기</a>
+  </section>
+
+</main>
+</body>
+</html>

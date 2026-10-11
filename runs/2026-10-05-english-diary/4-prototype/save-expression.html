@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>표현 저장 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { position: relative; width: 390px; height: 844px; overflow: hidden; background: #FAF8F4; color: #1C1B19; }
+  a { color: #1C1B19; text-decoration: none; }
+  button, input { font: inherit; color: #1C1B19; background: transparent; border: 0; cursor: pointer; }
+  img { display: block; }
+
+  .caption { font-size: 13px; font-weight: 400; line-height: 1.5; color: #6B6760; }
+  .section-title { font-size: 24px; font-weight: 700; line-height: 1.75; color: #1C1B19; }
+
+  /* 딤: CSS 반투명 대신 미리 딤 처리한 Review 화면 이미지 (§2, §5.14) */
+  .backdrop { position: absolute; inset: 0; display: block; }
+  .backdrop img { width: 390px; height: 844px; }
+
+  /* 떠 있는 저장 시트 — 좌우·아래 16, 네 모서리 16, 1px line, 그림자 없음. 처음에는 아무것도 선택되지 않음 (§5.14) */
+  .sheet { position: absolute; left: 16px; right: 16px; bottom: 16px; display: flex; flex-direction: column; gap: 12px; padding: 20px 16px 16px; background: #FFFFFF; border: 1px solid #E6E2DA; border-radius: 16px; }
+  .sheet-head { display: flex; align-items: center; gap: 8px; }
+  .sheet-head .section-title { flex: 1; min-width: 0; }
+  .close { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; min-height: 44px; min-width: 44px; padding: 8px 16px; background: #EFECE6; color: #1C1B19; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.4; }
+
+  .guide { display: flex; flex-direction: column; gap: 4px; }
+  .pick-group { display: flex; flex-direction: column; gap: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px; font-size: 14px; font-weight: 600; line-height: 1.4; background: #EFECE6; color: #1C1B19; border: 1px solid #EFECE6; border-radius: 999px; }
+  .chip[aria-pressed="true"] { background: #DEE8E4; color: #1C1B19; border: 1px solid #2F5D50; font-weight: 700; }
+
+  .btn-primary { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 24px; background: #2F5D50; color: #FFFFFF; border-radius: 999px; font-size: 16px; font-weight: 600; }
+</style>
+</head>
+<body>
+<main data-screen="save-expression" data-author="system" aria-label="다시 써 볼 표현 저장">
+
+  <a class="backdrop" href="review.html" aria-label="시트 닫기" data-ui-role="button"><img src="../../../docs/assets/save-sheet-backdrop.png" alt="" aria-hidden="true" width="390" height="844"></a>
+
+  <section class="sheet" aria-labelledby="sheet-title">
+    <div class="sheet-head">
+      <h1 class="section-title" id="sheet-title">표현 저장하기</h1>
+      <a class="close" href="home.html" data-ui-role="button" aria-label="닫기">닫기</a>
+    </div>
+
+    <div class="guide">
+      <p>다시 써 보고 싶은 표현을 골라요</p>
+      <p class="caption">9월 28일 기록에서</p>
+    </div>
+
+    <div class="pick-group">
+      <p class="caption" id="from-suggest">교정 제안에서</p>
+      <div class="chips" role="group" aria-labelledby="from-suggest">
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button" data-author="ai" data-content-role="suggestion" lang="en">had drinks with</button>
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button" data-author="ai" data-content-role="suggestion" lang="en">coworkers</button>
+      </div>
+    </div>
+
+    <div class="pick-group">
+      <p class="caption" id="from-mine">내가 쓴 글에서</p>
+      <div class="chips" role="group" aria-labelledby="from-mine">
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button" data-author="user" lang="en">drink with</button>
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button" data-author="user" lang="en">company people</button>
+        <button class="chip" type="button" aria-pressed="false" data-ui-role="button" data-author="user" lang="en">team trip</button>
+      </div>
+    </div>
+
+    <a class="btn-primary" href="home.html" data-ui-role="button">고른 표현 저장하기</a>
+  </section>
+
+</main>
+</body>
+</html>
