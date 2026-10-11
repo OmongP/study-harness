@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Write — 대화 캡처 — 영어가 내 것이 되는 일기</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #FAF8F4; color: #1C1B19; font-family: Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif; font-size: 16px; line-height: 1.6; }
+  [data-screen] { width: 390px; height: 844px; overflow-y: auto; background: #FAF8F4; color: #1C1B19; display: flex; flex-direction: column; }
+  a { color: #1C1B19; text-decoration: none; }
+  button, input { font: inherit; color: #1C1B19; background: transparent; border: 0; cursor: pointer; }
+  img { display: block; }
+
+  .caption { font-size: 13px; font-weight: 400; line-height: 20px; color: #6B6760; }
+  .label { font-size: 14px; font-weight: 600; line-height: 20px; color: #1C1B19; }
+  .body-strong { font-size: 16px; font-weight: 600; line-height: 1.6; color: #1C1B19; }
+  .ruled {
+    font-family: Newsreader, Georgia, serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 32px;
+    color: #1C1B19;
+    background-color: #FFFFFF;
+    background-image: repeating-linear-gradient(to bottom, #FFFFFF 0px, #FFFFFF 31px, #E6E2DA 31px, #E6E2DA 32px);
+    background-origin: content-box;
+    background-attachment: local;
+  }
+
+  /* 상단 바 (§5.1) */
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; }
+  .back { display: flex; align-items: center; min-height: 44px; min-width: 44px; padding: 8px; font-size: 16px; font-weight: 600; line-height: 1.6; color: #1C1B19; }
+  .topbar .box { padding: 8px; }
+
+  /* 맥락 띠 (§5.15) */
+  .context { position: sticky; top: 0; display: flex; flex-direction: column; gap: 4px; padding: 12px 20px; background: #FFFFFF; border-top: 1px solid #E6E2DA; border-bottom: 1px solid #E6E2DA; border-radius: 0; }
+
+  /* 작성 영역: 말풍선 4개 + 입력칸 c1 하나, 질문 알약 없음 (§5.15) */
+  .write { display: flex; flex-direction: column; gap: 16px; padding: 16px 20px 24px; }
+  .bubble { max-width: 85%; padding: 12px 16px; border-radius: 16px; font-size: 16px; font-weight: 400; line-height: 1.6; color: #1C1B19; }
+  .bubble-them { align-self: flex-start; background: #FFFFFF; border: 1px solid #E6E2DA; }
+  .bubble-me { align-self: flex-end; background: #E4ECD1; border: 0; }
+
+  .input-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .input { min-height: 128px; padding: 16px; border: 1px solid #2F5D50; border-radius: 12px; }
+
+  /* 하단 고정 영역 — 테두리 없음 (§4) */
+  .bottom { position: sticky; bottom: 0; margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding: 8px 20px 20px; background: #FAF8F4; border-radius: 0; }
+  .btn-primary { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; padding: 12px 24px; background: #2F5D50; color: #FFFFFF; border-radius: 999px; font-size: 16px; font-weight: 600; line-height: 1.6; }
+</style>
+</head>
+<body>
+<main data-screen="write-conversation" data-author="system" aria-label="대화를 영어로 쓰기">
+
+  <header class="topbar">
+    <a class="back" href="capture-confirm.html" data-ui-role="button" aria-label="캡처 확인으로 돌아가기">‹ 확인</a>
+    <p class="caption">10월 2일 금요일</p>
+    <div class="box">
+      <p class="caption" role="status" aria-live="polite">자동 저장됨 · 오후 8:40</p>
+    </div>
+  </header>
+
+  <div class="context" aria-label="대화 맥락">
+    <p class="body-strong">지수와의 대화</p>
+    <p class="caption">10월 2일 카카오톡 캡처 · 내 말만 영어로 써요</p>
+  </div>
+
+  <!-- 질문 알약·'다른 질문'·AI 답변 도움 없음 (R15, PRD 6.5) -->
+  <section class="write" data-area="write" aria-label="내 말을 영어로 쓰기">
+
+    <p class="bubble bubble-them" data-author="user">이번 주 금요일에 시간 돼?</p>
+
+    <p class="bubble bubble-me" data-author="user">응, 저녁에 괜찮아. 어디 가고 싶은 데 있어?</p>
+
+    <div class="input-wrap">
+      <p class="label" id="label-c1">이 말을 내 영어로</p>
+      <div class="input ruled" role="textbox" contenteditable="true" aria-multiline="true" aria-labelledby="label-c1" data-interactive="true" data-author="user" data-original-id="c1" lang="en">Yes, I'm okay at evening. Where do you want to go?</div>
+    </div>
+
+    <p class="bubble bubble-them" data-author="user">새로 생긴 파스타집 가 보자!</p>
+
+    <p class="bubble bubble-me" data-author="user">좋아ㅋㅋㅋ 일곱 시에 회사 앞에서 만나자.</p>
+
+  </section>
+
+  <footer class="bottom">
+    <a class="btn-primary" href="review.html" data-ui-role="button">다 썼어요 · 교정 보기</a>
+  </footer>
+
+</main>
+</body>
+</html>
